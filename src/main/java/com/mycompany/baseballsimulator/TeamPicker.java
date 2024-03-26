@@ -4,53 +4,82 @@
  */
 package com.mycompany.baseballsimulator;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Jinnerfield
  */
-public class TeamPicker extends javax.swing.JFrame {
-
-    /**
-     * 
-     * Creates new form TeamPicker
-     * @return 
-     */
+public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     
-    
-    public static String PlayerGetter() {
-        String jsonText = "";
-        System.out.println("fuck");
-        try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\ninne\\OneDrive\\Documents\\NetBeansProjects\\BaseballSimulator\\src\\main\\java\\com\\mycompany\\baseballsimulator\\savant_2022Batters.json"));
-            String line;
-            while ((line = bufferedReader.readLine()) != null){
-                jsonText += line + "\n";
-//                System.out.println(jsonText);
-            }
-            bufferedReader.close();
-        }catch (IOException e){
-        }
-        String[] lastNameSplit = jsonText.split("Judge", 0);
-        System.out.println(lastNameSplit[1]);
-        String[] playerInfo = lastNameSplit[1].split("},",0);
-        System.out.println(playerInfo[0]);
-        
-
-        return jsonText;
-    }
-    
-//        public String getName(){
-//        String[] arrOfStr = jsonText.split(",", 0);
-//    }
-
+    JTextField[] positions = new JTextField[8];
+    JButton[] dropButtons = new JButton[8];
+    JButton[] infoButtons = new JButton[8];
     
     public TeamPicker() {
-        initComponents();
-        PlayerGetter();
+       initComponents();
+       positions[0] = catcherText;
+       positions[1] = firstBaseText;
+       positions[2] = secondBaseText;
+       positions[3] = shortStopText;
+       positions[4] = thirdBaseText;
+       positions[5] = leftFieldText;
+       positions[6] = centerFieldText;
+       positions[7] = rightFieldText;
+       
+       dropButtons[0] = catcherDropBtn;
+       dropButtons[1] = firstBaseDropBtn;
+       dropButtons[2] = secondBaseDropBtn;
+       dropButtons[3] = shortStopDropBtn;
+       dropButtons[4] = thirdBaseDropBtn;
+       dropButtons[5] = leftFieldDropBtn;
+       dropButtons[6] = centerFieldDropBtn;
+       dropButtons[7] = rightFieldDropBtn;
+       
+       infoButtons[0] = catcherInfo;
+       infoButtons[1] = firstBaseInfo;
+       infoButtons[2] = secondBaseInfo;
+       infoButtons[3] = shortStopInfo;
+       infoButtons[4] = thirdBaseInfo;
+       infoButtons[5] = leftFieldInfo;
+       infoButtons[6] = centerFieldInfo;
+       infoButtons[7] = rightFieldInfo;
+       
+       setupButtonListeners();
+       setDropButtons();
+    }
+    
+    private void setDropButtons(){
+        for(int i = 0; i<8; i++){
+            dropButtons[i].setEnabled(false);
+        }
+    }
+    
+    private void dropPlayer(int i){
+        positions[i].setText("Empty");
+        setDropButtons();
+    }
+    
+    private void positionHandler(String name){   
+        for(int i = 0; i<8; i++){
+//            System.out.println(positions[0].getText());
+            if (positions[i].getText().equals("Empty")){
+                positions[i].setText(name);
+//                System.out.println(positions[0].getText());
+                return;
+            }else{
+                System.out.println("okay");
+                
+            }
+        }
     }
 
     /**
@@ -63,10 +92,11 @@ public class TeamPicker extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton4 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        playerSearch = new javax.swing.JTextPane();
+        addBtn = new javax.swing.JButton();
+        dropBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,7 +107,7 @@ public class TeamPicker extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         playButton = new javax.swing.JButton();
-        CatcherText = new javax.swing.JTextField();
+        catcherText = new javax.swing.JTextField();
         firstBaseText = new javax.swing.JTextField();
         secondBaseText = new javax.swing.JTextField();
         shortStopText = new javax.swing.JTextField();
@@ -85,22 +115,46 @@ public class TeamPicker extends javax.swing.JFrame {
         leftFieldText = new javax.swing.JTextField();
         centerFieldText = new javax.swing.JTextField();
         rightFieldText = new javax.swing.JTextField();
+        catcherDropBtn = new javax.swing.JButton();
+        firstBaseDropBtn = new javax.swing.JButton();
+        secondBaseDropBtn = new javax.swing.JButton();
+        shortStopDropBtn = new javax.swing.JButton();
+        thirdBaseDropBtn = new javax.swing.JButton();
+        leftFieldDropBtn = new javax.swing.JButton();
+        centerFieldDropBtn = new javax.swing.JButton();
+        rightFieldDropBtn = new javax.swing.JButton();
+        catcherInfo = new javax.swing.JButton();
+        firstBaseInfo = new javax.swing.JButton();
+        rightFieldInfo = new javax.swing.JButton();
+        centerFieldInfo = new javax.swing.JButton();
+        leftFieldInfo = new javax.swing.JButton();
+        thirdBaseInfo = new javax.swing.JButton();
+        shortStopInfo = new javax.swing.JButton();
+        secondBaseInfo = new javax.swing.JButton();
 
         jButton4.setText("jButton4");
 
+        jButton3.setText("jButton3");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 153, 0));
 
-        jTextPane1.setText("Player Name");
-        jScrollPane1.setViewportView(jTextPane1);
+        playerSearch.setText("Player Last Name");
+        jScrollPane1.setViewportView(playerSearch);
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addBtn.setText("Add");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addBtnActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Drop");
+        dropBtn.setText("Drop");
+        dropBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 24)); // NOI18N
         jLabel1.setText("Lineup");
@@ -128,61 +182,100 @@ public class TeamPicker extends javax.swing.JFrame {
             }
         });
 
-        CatcherText.setText("Catcher");
-        CatcherText.addActionListener(new java.awt.event.ActionListener() {
+        catcherText.setText("Empty");
+        catcherText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CatcherTextActionPerformed(evt);
+                catcherTextActionPerformed(evt);
             }
         });
 
-        firstBaseText.setText("First Base");
+        firstBaseText.setText("Empty");
         firstBaseText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstBaseTextActionPerformed(evt);
             }
         });
 
-        secondBaseText.setText("Second Base");
+        secondBaseText.setText("Empty");
         secondBaseText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 secondBaseTextActionPerformed(evt);
             }
         });
 
-        shortStopText.setText("Short Stop");
+        shortStopText.setText("Empty");
         shortStopText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 shortStopTextActionPerformed(evt);
             }
         });
 
-        thirdBaseText.setText("Third Base");
+        thirdBaseText.setText("Empty");
+        thirdBaseText.setToolTipText("");
         thirdBaseText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 thirdBaseTextActionPerformed(evt);
             }
         });
 
-        leftFieldText.setText("Left Field");
+        leftFieldText.setText("Empty");
         leftFieldText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 leftFieldTextActionPerformed(evt);
             }
         });
 
-        centerFieldText.setText("Center Field");
+        centerFieldText.setText("Empty");
         centerFieldText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 centerFieldTextActionPerformed(evt);
             }
         });
 
-        rightFieldText.setText("Right Field");
+        rightFieldText.setText("Empty");
         rightFieldText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rightFieldTextActionPerformed(evt);
             }
         });
+
+        catcherDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+        catcherDropBtn.setForeground(new java.awt.Color(255, 0, 0));
+
+        firstBaseDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+
+        secondBaseDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+
+        shortStopDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+
+        thirdBaseDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+
+        leftFieldDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+
+        centerFieldDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+
+        rightFieldDropBtn.setBackground(new java.awt.Color(255, 0, 0));
+        rightFieldDropBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rightFieldDropBtnActionPerformed(evt);
+            }
+        });
+
+        catcherInfo.setText("Info");
+
+        firstBaseInfo.setText("Info");
+
+        rightFieldInfo.setText("Info");
+
+        centerFieldInfo.setText("Info");
+
+        leftFieldInfo.setText("Info");
+
+        thirdBaseInfo.setText("Info");
+
+        shortStopInfo.setText("Info");
+
+        secondBaseInfo.setText("Info");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,121 +284,195 @@ public class TeamPicker extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(rightFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(playButton)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(CatcherText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(firstBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
-                        .addGap(125, 125, 125))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
-                                .addComponent(shortStopText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(secondBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(thirdBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(rightFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rightFieldDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel7))
                                 .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(centerFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(centerFieldDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(leftFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(leftFieldDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(rightFieldInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(centerFieldInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(leftFieldInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(playButton)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(thirdBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(thirdBaseDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(shortStopText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(shortStopDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(secondBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(secondBaseDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel2))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(catcherText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(catcherDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(firstBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(firstBaseDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(29, 29, 29)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(shortStopInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(thirdBaseInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(102, 323, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(secondBaseInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE)
+                                    .addComponent(firstBaseInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                    .addComponent(catcherInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(leftFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(centerFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(addBtn)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dropBtn))
+                                .addGap(125, 125, 125))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 11, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(catcherDropBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel2)
+                                            .addComponent(catcherText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(catcherInfo, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(firstBaseDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(firstBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(secondBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(secondBaseInfo))
+                                    .addComponent(secondBaseDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(15, 15, 15))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addBtn)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(dropBtn)
+                                    .addComponent(firstBaseInfo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(CatcherText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(firstBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(secondBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17))
+                            .addComponent(jLabel5)
+                            .addComponent(shortStopText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(shortStopDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(shortStopInfo)
+                        .addGap(10, 10, 10)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(shortStopText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(thirdBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(thirdBaseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(thirdBaseDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(thirdBaseInfo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(leftFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(centerFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(rightFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(playButton))
+                    .addComponent(leftFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(leftFieldDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(leftFieldInfo))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(centerFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(centerFieldDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(rightFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(playButton)
+                                .addComponent(rightFieldInfo))
+                            .addComponent(rightFieldDropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(centerFieldInfo))
                 .addGap(12, 12, 12))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String var = playerSearch.getText();
+        String fullName = PlayerGetter.PlayerGetter(var);
+        positionHandler(fullName);
+    }//GEN-LAST:event_addBtnActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_playButtonActionPerformed
 
-    private void CatcherTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatcherTextActionPerformed
+    private void catcherTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catcherTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CatcherTextActionPerformed
+    }//GEN-LAST:event_catcherTextActionPerformed
 
     private void firstBaseTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstBaseTextActionPerformed
         // TODO add your handling code here:
@@ -334,6 +501,17 @@ public class TeamPicker extends javax.swing.JFrame {
     private void rightFieldTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightFieldTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rightFieldTextActionPerformed
+
+    private void dropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropBtnActionPerformed
+        // TODO add your handling code here:
+        for (int i=0; i<8; i++){
+            dropButtons[i].setEnabled(true);
+        }
+    }//GEN-LAST:event_dropBtnActionPerformed
+
+    private void rightFieldDropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightFieldDropBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightFieldDropBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,11 +549,18 @@ public class TeamPicker extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField CatcherText;
+    private javax.swing.JButton addBtn;
+    private javax.swing.JButton catcherDropBtn;
+    private javax.swing.JButton catcherInfo;
+    private javax.swing.JTextField catcherText;
+    private javax.swing.JButton centerFieldDropBtn;
+    private javax.swing.JButton centerFieldInfo;
     private javax.swing.JTextField centerFieldText;
+    private javax.swing.JButton dropBtn;
+    private javax.swing.JButton firstBaseDropBtn;
+    private javax.swing.JButton firstBaseInfo;
     private javax.swing.JTextField firstBaseText;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -387,12 +572,73 @@ public class TeamPicker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JButton leftFieldDropBtn;
+    private javax.swing.JButton leftFieldInfo;
     private javax.swing.JTextField leftFieldText;
     private javax.swing.JButton playButton;
+    private javax.swing.JTextPane playerSearch;
+    private javax.swing.JButton rightFieldDropBtn;
+    private javax.swing.JButton rightFieldInfo;
     private javax.swing.JTextField rightFieldText;
+    private javax.swing.JButton secondBaseDropBtn;
+    private javax.swing.JButton secondBaseInfo;
     private javax.swing.JTextField secondBaseText;
+    private javax.swing.JButton shortStopDropBtn;
+    private javax.swing.JButton shortStopInfo;
     private javax.swing.JTextField shortStopText;
+    private javax.swing.JButton thirdBaseDropBtn;
+    private javax.swing.JButton thirdBaseInfo;
     private javax.swing.JTextField thirdBaseText;
     // End of variables declaration//GEN-END:variables
+
+    public void setupButtonListeners(){
+        ActionListener dropButtonListener = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i=0; i<8; i++){
+                        if (e.getSource() == dropButtons[i]){
+                            dropPlayer(i);     
+                        }
+                }
+            } 
+        };
+        ActionListener infoButtonListener = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    for (int i=0; i<8; i++){
+                        if (e.getSource() == infoButtons[i]){
+                            String playerInfoRequested = positions[i].getText().toLowerCase();
+                            String url = "https://www.foxsports.com/mlb/" + playerInfoRequested;
+                            System.out.println(url);
+                            Desktop.getDesktop().browse(new URL(url).toURI());
+                        }
+                }
+                }catch(Exception ae){
+                }
+            } 
+        };
+        catcherDropBtn.addActionListener(dropButtonListener);
+        firstBaseDropBtn.addActionListener(dropButtonListener);
+        secondBaseDropBtn.addActionListener(dropButtonListener);
+        shortStopDropBtn.addActionListener(dropButtonListener);
+        thirdBaseDropBtn.addActionListener(dropButtonListener);
+        leftFieldDropBtn.addActionListener(dropButtonListener);
+        centerFieldDropBtn.addActionListener(dropButtonListener);
+        rightFieldDropBtn.addActionListener(dropButtonListener);
+        
+        catcherInfo.addActionListener(infoButtonListener);
+        firstBaseInfo.addActionListener(infoButtonListener);
+        secondBaseInfo.addActionListener(infoButtonListener);
+        shortStopInfo.addActionListener(infoButtonListener);
+        thirdBaseInfo.addActionListener(infoButtonListener);
+        leftFieldInfo.addActionListener(infoButtonListener);
+        centerFieldInfo.addActionListener(infoButtonListener);
+        rightFieldInfo.addActionListener(infoButtonListener);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
