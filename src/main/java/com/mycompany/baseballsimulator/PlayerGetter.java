@@ -36,53 +36,32 @@ public class PlayerGetter {
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
      */
+    
 
-    /**
-     *
-     * @author Jinnerfield
-     * @return 
-     */
-
-        public static String PlayerGetter() {
-            String jsonText = "";
-            try{
-                BufferedReader bufferedReader = new BufferedReader(new FileReader("savant_2022Batters.json"));
-                String line;
-                while ((line = bufferedReader.readLine()) != null){
-                    jsonText += line + "\n";
-                    System.out.println(jsonText);
-                }
-                bufferedReader.close();
-            }catch (IOException e){
+    public static String PlayerGetter(String playerLastName) {
+        String jsonText = "";
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\ninne\\OneDrive\\Documents\\NetBeansProjects\\BaseballSimulator\\src\\main\\java\\com\\mycompany\\baseballsimulator\\savant_2022Batters.json"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+                jsonText += line + "\n";
             }
-            return jsonText;
+            bufferedReader.close();
+        }catch (IOException e){
         }
+        String[] lastNameSplit = jsonText.split(playerLastName, 0);
+        String[] firstName = lastNameSplit[1].split("\"");
+        String fullName = (firstName[4] +"-" + playerLastName);
+        String[] completedName = fullName.split(" ");
+        System.out.println(completedName[1]);
+        return completedName[1];
+    }
 }
-//            try {
-//                File file = new File("savant_2022Batters.json");
-//                URLConnection yc = file.openConnection();
-//                BufferedReader in = new BufferedReader(new InputStreamReader(
-//                        yc.getInputStream()));
-//                String inputLine;
-//                StringBuilder sb = new StringBuilder();
-//                while ((inputLine = in.readLine()) != null) {
-//                    System.out.println(inputLine);
-//                    sb.append(inputLine);
-//                }
-//                in.close();
-//                return sb.toString();
-//            } catch (MalformedURLException ex) {
-////                Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (IOException ex) {
-            
-//            return null;
-//        }
-//    }
 
 
 
 /**
  * 
  *
- * @author Jinnerfield
+ * @author Ninnerfield
  */
