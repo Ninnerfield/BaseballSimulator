@@ -39,6 +39,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
        dropButtons[1] = firstBaseDropBtn;
        dropButtons[2] = secondBaseDropBtn;
        dropButtons[3] = shortStopDropBtn;
+       
        dropButtons[4] = thirdBaseDropBtn;
        dropButtons[5] = leftFieldDropBtn;
        dropButtons[6] = centerFieldDropBtn;
