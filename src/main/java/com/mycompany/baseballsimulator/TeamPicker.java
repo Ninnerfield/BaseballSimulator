@@ -643,3 +643,12 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
+
+//Choose Team
+//Player Stats
+//Singleton on simulate class
+//UI update
+//Title
+//Team Chemisty>
+//Pitching?
+//Quiz Mode?
