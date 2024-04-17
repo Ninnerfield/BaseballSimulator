@@ -35,11 +35,11 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 //    private Gson gson;
     private String jsonReader;
     private HashMap<String, Float> playerStats = new HashMap<String, Float>();
-    ImageIcon imageTrophy = new ImageIcon("Tropy_Gold.png");
+//    ImageIcon imageTrophy = new ImageIcon("Tropy_Gold.png");
     
     public TeamPicker() {
        initComponents();
-       trophyImage.setIcon(imageTrophy);
+//       trophyImage.setIcon(imageTrophy);
        positions[0] = catcherText;
        positions[1] = firstBaseText;
        positions[2] = secondBaseText;
@@ -82,10 +82,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         playerStats = Simulate.mvpGetter(playerStats);
         PlayerGetter.mvpGetter(playerStats);
         
-//        ImageIcon imageIcon = new ImageIcon("./images/Tropy_Gold 1.png"); // load the image to a imageIcon
-//        Image image = imageIcon.getImage(); // transform it 
-//        Image newimg = image.getScaledInstance(iconTrophy.getWidth(), iconTrophy.getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-//        imageIcon = new ImageIcon(newimg);  // transform it back
     }
     
     private void setDropButtons(){
@@ -126,12 +122,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        trophyImage = new javax.swing.JLabel();
         addBtn = new javax.swing.JButton();
         dropBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -210,25 +200,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 29, Short.MAX_VALUE)
         );
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/istockphoto-1269757192-612x612.jpg"))); // NOI18N
-        jLabel11.setText("jLabel11");
-
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/baseball-field-the-illustration-vector.png"))); // NOI18N
-        jLabel12.setText("jLabel12");
-
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6580138493870080.png"))); // NOI18N
-        jLabel13.setText("jLabel13");
-
-        jLabel14.setBackground(new java.awt.Color(51, 0, 51));
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/170-1704817_baseball-field-sport-little-league-baseball-clip-art.png"))); // NOI18N
-        jLabel14.setText("jLabel14");
-
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Trophy_Gold 1.png"))); // NOI18N
-        jLabel15.setText("jLabel15");
-
-        trophyImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Trophy_Gold.png"))); // NOI18N
-        trophyImage.setText("jLabel16");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 153, 0));
@@ -524,7 +495,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                 .addComponent(playButton)
                 .addGap(42, 42, 42))
         );
@@ -658,11 +629,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -695,7 +661,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton thirdBaseDropBtn;
     private javax.swing.JButton thirdBaseInfo;
     private javax.swing.JTextField thirdBaseText;
-    private javax.swing.JLabel trophyImage;
     // End of variables declaration//GEN-END:variables
 
     public void setupButtonListeners(){
