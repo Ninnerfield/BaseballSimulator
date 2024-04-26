@@ -63,7 +63,7 @@ public class PlayerGetter {
     public static String nameGetter(String playerLastName){
         String[] lastNameSplit = jsonText.split(playerLastName, 0);
         String[] firstName = lastNameSplit[1].split("\"");
-        String fullName = (firstName[4] +"-" + playerLastName);
+        String fullName = (firstName[4] +"_" + playerLastName);
         String[] completedName = fullName.split(" ");
         System.out.println(completedName[1]);
         return completedName[1];
@@ -73,7 +73,6 @@ public class PlayerGetter {
         //Gets the names of the players to add to a dictionary
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
-        StringBuilder sb3 = new StringBuilder();
         String[] wobaNames = jsonText.split("last_name\":\"", 0);
         for (int i = 0; i < wobaNames.length; i++){
             String[] deleteNames = wobaNames[i].split(" ");
@@ -118,9 +117,16 @@ public class PlayerGetter {
         System.out.println(results);
         return results;
     }
-          
     
-
+    public static void yourTeamWobaGetter(String catcher, String firstBase, String secondBase, String thirdBase, String shortStop, String leftField, String centerField, String rightField, String dh){
+            System.out.println("Testing for Woba " + playerWobas.get(firstBase));
+            // Put starting lineup in hashmap for when you give their stats
+            float yourTeamWoba = (playerWobas.get(catcher) + playerWobas.get(firstBase) + playerWobas.get(secondBase) + playerWobas.get(thirdBase) + playerWobas.get(shortStop) + playerWobas.get(leftField) + playerWobas.get(centerField) + playerWobas.get(rightField) + playerWobas.get(dh)) / 9;
+            System.out.println("Your Team Woba = " + yourTeamWoba);
+            double yourTeamWobaDouble = yourTeamWoba;
+            System.out.println(yourTeamWobaDouble);
+            Simulate.addYourTeam("TeamYES", yourTeamWobaDouble);
+    }
 }
 
 
