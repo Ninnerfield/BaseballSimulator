@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +36,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 //    private Gson gson;
     private String jsonReader;
     private HashMap<String, Float> playerStats = new HashMap<String, Float>();
+
+
 //    ImageIcon imageTrophy = new ImageIcon("Tropy_Gold.png");
     
     public TeamPicker() {
@@ -72,6 +75,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
        
        setupButtonListeners();
        setDropButtons();
+       
         try {
             // Example JSON array string
             PlayerGetter.playerGetter();
@@ -81,7 +85,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         playerStats = PlayerGetter.xwobaGetter();
         playerStats = Simulate.mvpGetter(playerStats);
         PlayerGetter.mvpGetter(playerStats);
-        
     }
     
     private void setDropButtons(){
@@ -167,7 +170,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        playButton = new javax.swing.JButton();
+        simulateButton = new javax.swing.JButton();
 
         jButton4.setText("jButton4");
 
@@ -257,7 +260,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         catcherText.setBackground(new java.awt.Color(255, 255, 255));
         catcherText.setForeground(new java.awt.Color(0, 0, 0));
-        catcherText.setText("Empty");
+        catcherText.setText("Jose_Trevino");
         catcherText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 catcherTextActionPerformed(evt);
@@ -267,7 +270,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         firstBaseText.setBackground(new java.awt.Color(255, 255, 255));
         firstBaseText.setForeground(new java.awt.Color(255, 0, 51));
-        firstBaseText.setText("Empty");
+        firstBaseText.setText("Anthony_Rizzo");
         firstBaseText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstBaseTextActionPerformed(evt);
@@ -277,7 +280,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         secondBaseText.setBackground(new java.awt.Color(255, 255, 255));
         secondBaseText.setForeground(new java.awt.Color(0, 0, 0));
-        secondBaseText.setText("Empty");
+        secondBaseText.setText("G_Torres");
         secondBaseText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 secondBaseTextActionPerformed(evt);
@@ -287,7 +290,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         shortStopText.setBackground(new java.awt.Color(255, 255, 255));
         shortStopText.setForeground(new java.awt.Color(255, 0, 0));
-        shortStopText.setText("Empty");
+        shortStopText.setText("I_Kiner-Falefa");
         shortStopText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 shortStopTextActionPerformed(evt);
@@ -297,7 +300,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         thirdBaseText.setBackground(new java.awt.Color(255, 255, 255));
         thirdBaseText.setForeground(new java.awt.Color(0, 0, 0));
-        thirdBaseText.setText("Empty");
+        thirdBaseText.setText("J_Donaldson");
         thirdBaseText.setToolTipText("");
         thirdBaseText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -308,7 +311,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         leftFieldText.setBackground(new java.awt.Color(255, 255, 255));
         leftFieldText.setForeground(new java.awt.Color(255, 0, 0));
-        leftFieldText.setText("Empty");
+        leftFieldText.setText("A_Hicks");
         leftFieldText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 leftFieldTextActionPerformed(evt);
@@ -318,7 +321,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         centerFieldText.setBackground(new java.awt.Color(255, 255, 255));
         centerFieldText.setForeground(new java.awt.Color(0, 0, 0));
-        centerFieldText.setText("Empty");
+        centerFieldText.setText("A_Judge");
         centerFieldText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 centerFieldTextActionPerformed(evt);
@@ -328,7 +331,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         rightFieldText.setBackground(new java.awt.Color(255, 255, 255));
         rightFieldText.setForeground(new java.awt.Color(255, 0, 0));
-        rightFieldText.setText("Empty");
+        rightFieldText.setText("B_McKinney");
         rightFieldText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rightFieldTextActionPerformed(evt);
@@ -414,7 +417,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
         dhText.setBackground(new java.awt.Color(255, 255, 255));
         dhText.setForeground(new java.awt.Color(0, 0, 0));
-        dhText.setText("Empty");
+        dhText.setText("G_Stanton");
         dhText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dhTextActionPerformed(evt);
@@ -482,10 +485,10 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        playButton.setText("Simulate");
-        playButton.addActionListener(new java.awt.event.ActionListener() {
+        simulateButton.setText("Simulate");
+        simulateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playButtonActionPerformed(evt);
+                simulateButtonActionPerformed(evt);
             }
         });
 
@@ -495,8 +498,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
-                .addComponent(playButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+                .addComponent(simulateButton)
                 .addGap(42, 42, 42))
         );
         jPanel1Layout.setVerticalGroup(
@@ -504,7 +507,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(playButton)
+                .addComponent(simulateButton)
                 .addGap(27, 27, 27))
         );
 
@@ -520,9 +523,21 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         positionHandler(fullName);
     }//GEN-LAST:event_addBtnActionPerformed
 
-    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_playButtonActionPerformed
+    private void simulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateButtonActionPerformed
+        Simulate.getInstance();
+        String[] catcherName = catcherText.getText().split("_");
+        String[] firstBaseName = catcherText.getText().split("_");
+        String[] secondBaseName = catcherText.getText().split("_");
+        String[] thirdBaseName = catcherText.getText().split("_");
+        String[] shortStopName = catcherText.getText().split("_");
+        String[] leftFieldName = catcherText.getText().split("_");
+        String[] centerFieldName = catcherText.getText().split("_");
+        String[] rightFieldName = catcherText.getText().split("_");
+        String[] dhName = catcherText.getText().split("_");
+        PlayerGetter.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1]);
+        Simulate pi = new Simulate();
+        pi.setVisible(true);
+    }//GEN-LAST:event_simulateButtonActionPerformed
 
     private void catcherTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catcherTextActionPerformed
         // TODO add your handling code here:
@@ -647,7 +662,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton leftFieldDropBtn;
     private javax.swing.JButton leftFieldInfo;
     private javax.swing.JTextField leftFieldText;
-    private javax.swing.JButton playButton;
     private javax.swing.JTextPane playerSearch;
     private javax.swing.JButton rightFieldDropBtn;
     private javax.swing.JButton rightFieldInfo;
@@ -658,6 +672,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton shortStopDropBtn;
     private javax.swing.JButton shortStopInfo;
     private javax.swing.JTextField shortStopText;
+    private javax.swing.JButton simulateButton;
     private javax.swing.JButton thirdBaseDropBtn;
     private javax.swing.JButton thirdBaseInfo;
     private javax.swing.JTextField thirdBaseText;
