@@ -25,6 +25,7 @@ public class Simulate extends javax.swing.JFrame {
     private static String loser;
     private static Integer[] teamSorted = new Integer[31];
     private static JTextField[] rankRecords = new JTextField[31];
+    private static String results = null;
     /**
      * Creates new form NewJFrame
      */
@@ -122,8 +123,8 @@ public class Simulate extends javax.swing.JFrame {
         rankRecords[27]= twentyeighthPlaceRecord;
         rankRecords[28]= twentyninthPlaceRecord;
         rankRecords[29]= thirtiethPlaceRecord;
-      
         Simulate.seasonSimulation();
+        
 
     }
     
@@ -137,7 +138,7 @@ public class Simulate extends javax.swing.JFrame {
     }
     
     //Randomly increases or decreases the offensive production (xwoba) for a player randomly between .05 and -.05
-    public static HashMap mvpGetter(HashMap<String, Float> map){
+    public static HashMap playerSeasonSim(HashMap<String, Float> map){
         Random rand = new Random(); 
         for (HashMap.Entry<String, Float> entry : map.entrySet()){
             float changeValue = rand.nextFloat() * 0.1f;   
@@ -154,10 +155,33 @@ public class Simulate extends javax.swing.JFrame {
         return map;
     }
     
+    public static String returnMVP(HashMap<String, Float> map){
+        String mvpLastName = "";
+        float mvpWoba = 0;
+        for (HashMap.Entry<String, Float> entry : map.entrySet()){
+            if (mvpLastName == ""){
+                mvpLastName = entry.getKey();
+                mvpWoba = entry.getValue();
+            }
+            else
+                if (entry.getValue() > mvpWoba){
+                    mvpWoba = entry.getValue();
+                    mvpLastName = entry.getKey();
+                }
+        }
+        System.out.println(mvpLastName);
+        String mvpFullName = PlayerGetter.nameGetter(mvpLastName);
+        mvpText.setText(mvpFullName);
+        results = mvpFullName +":" + results.valueOf(mvpWoba);
+        return mvpFullName;
+    }
+    
     public static void addYourTeam(String teamName, Double teamWoba){
         teamWobas.put(teamName, teamWoba);
         teamRecords.put(teamName, new Integer[]{0,0});
     }
+    
+    
     
     public static void seasonSimulation(){
        teamRecords.put("Dodgers", new Integer[]{0,0});
@@ -248,12 +272,8 @@ public class Simulate extends javax.swing.JFrame {
         }
         Arrays.sort(teamSorted, Comparator.nullsLast(Comparator.reverseOrder()));
         int i = 0;
-//        int t = 0;
-//        while (t <= 30){
         for(int t=0; t<29; t++){
             for (HashMap.Entry<String, Integer[]> entry : teamRecords.entrySet()) {
-                System.out.println(entry.getValue()[0]);
-                System.out.println(teamSorted[i]);
                 if (entry.getValue()[0] == teamSorted[i]){
                     System.out.println(i);
                     teamRankings[i].setText(entry.getKey());
@@ -350,6 +370,27 @@ public class Simulate extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        mvpText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        mvpStats = new javax.swing.JTextField();
+        catcherStatsName = new javax.swing.JTextField();
+        catcherStats = new javax.swing.JTextField();
+        firstbaseStats = new javax.swing.JTextField();
+        firstbaseStatsName = new javax.swing.JTextField();
+        secondbaseStats = new javax.swing.JTextField();
+        secondbaseStatsName = new javax.swing.JTextField();
+        thirdbaseStatsName = new javax.swing.JTextField();
+        thirdbaseStats = new javax.swing.JTextField();
+        shortstopStats = new javax.swing.JTextField();
+        shortstopStatsName = new javax.swing.JTextField();
+        leftfieldStatsName = new javax.swing.JTextField();
+        leftfieldStats = new javax.swing.JTextField();
+        centerfieldStatsName = new javax.swing.JTextField();
+        centerfieldStats = new javax.swing.JTextField();
+        rightfieldStats = new javax.swing.JTextField();
+        rightfieldStatsName = new javax.swing.JTextField();
+        dhStatsName = new javax.swing.JTextField();
+        dhStats = new javax.swing.JTextField();
 
         jButton1.setText("jButton1");
 
@@ -361,7 +402,7 @@ public class Simulate extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 51, 51));
 
         jLabel1.setFont(new java.awt.Font("Ravie", 1, 24)); // NOI18N
         jLabel1.setText("Individual Results");
@@ -369,7 +410,7 @@ public class Simulate extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Ravie", 1, 24)); // NOI18N
         jLabel2.setText("Team Results");
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         firstPlaceTeam.setText("jTextField1");
         firstPlaceTeam.addActionListener(new java.awt.event.ActionListener() {
@@ -794,17 +835,153 @@ public class Simulate extends javax.swing.JFrame {
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+
+        mvpText.setText("MVP Here");
+        mvpText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mvpTextActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel5.setFont(new java.awt.Font("Ravie", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("MVP:");
+
+        mvpStats.setText("MVP Stats Here");
+
+        catcherStatsName.setText("jTextField1");
+        catcherStatsName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                catcherStatsNameActionPerformed(evt);
+            }
+        });
+
+        catcherStats.setText("catcherStats");
+
+        firstbaseStats.setText("firstbaseStats");
+
+        firstbaseStatsName.setText("firstbaseStatsName");
+
+        secondbaseStats.setText("jTextField2");
+
+        secondbaseStatsName.setText("jTextField1");
+
+        thirdbaseStatsName.setText("jTextField1");
+
+        thirdbaseStats.setText("jTextField2");
+
+        shortstopStats.setText("jTextField2");
+
+        shortstopStatsName.setText("jTextField1");
+
+        leftfieldStatsName.setText("jTextField1");
+
+        leftfieldStats.setText("jTextField2");
+
+        centerfieldStatsName.setText("jTextField1");
+
+        centerfieldStats.setText("jTextField2");
+
+        rightfieldStats.setText("jTextField2");
+
+        rightfieldStatsName.setText("jTextField1");
+
+        dhStatsName.setText("jTextField1");
+
+        dhStats.setText("jTextField2");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(firstbaseStatsName, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                            .addComponent(catcherStatsName, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(secondbaseStatsName))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(secondbaseStats)
+                            .addComponent(mvpStats, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(mvpText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(catcherStats, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(firstbaseStats, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(shortstopStatsName)
+                            .addComponent(thirdbaseStatsName)
+                            .addComponent(leftfieldStatsName))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(thirdbaseStats, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(shortstopStats)
+                            .addComponent(leftfieldStats)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(rightfieldStatsName)
+                            .addComponent(centerfieldStatsName)
+                            .addComponent(dhStatsName))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rightfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(centerfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dhStats, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(24, 24, 24))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 447, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mvpText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mvpStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(catcherStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(catcherStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstbaseStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstbaseStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(secondbaseStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(secondbaseStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(thirdbaseStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(thirdbaseStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(shortstopStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(shortstopStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(leftfieldStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(leftfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(centerfieldStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(centerfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rightfieldStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dhStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dhStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -815,9 +992,12 @@ public class Simulate extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(jLabel1))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -859,6 +1039,14 @@ public class Simulate extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_firstPlaceTeamActionPerformed
 
+    private void mvpTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mvpTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mvpTextActionPerformed
+
+    private void catcherStatsNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catcherStatsNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_catcherStatsNameActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -896,6 +1084,12 @@ public class Simulate extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField catcherStats;
+    private javax.swing.JTextField catcherStatsName;
+    private javax.swing.JTextField centerfieldStats;
+    private javax.swing.JTextField centerfieldStatsName;
+    private javax.swing.JTextField dhStats;
+    private javax.swing.JTextField dhStatsName;
     private javax.swing.JTextField eighteenthPlaceRecord;
     private javax.swing.JTextField eighteenthPlaceTeam;
     private javax.swing.JTextField eighthPlaceRecord;
@@ -908,6 +1102,8 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JTextField fifthPlaceTeam;
     private javax.swing.JTextField firstPlaceRecord;
     private javax.swing.JTextField firstPlaceTeam;
+    private javax.swing.JTextField firstbaseStats;
+    private javax.swing.JTextField firstbaseStatsName;
     private javax.swing.JTextField fourteenthPlaceRecord;
     private javax.swing.JTextField fourteenthPlaceTeam;
     private javax.swing.JTextField fourthPlaceRecord;
@@ -918,22 +1114,33 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
+    private javax.swing.JTextField leftfieldStats;
+    private javax.swing.JTextField leftfieldStatsName;
+    private javax.swing.JTextField mvpStats;
+    private static javax.swing.JTextField mvpText;
     private javax.swing.JTextField nineteenthPlaceRecord;
     private javax.swing.JTextField nineteenthPlaceTeam;
     private javax.swing.JTextField ninthPlaceRecord;
     private javax.swing.JTextField ninthPlaceTeam;
+    private javax.swing.JTextField rightfieldStats;
+    private javax.swing.JTextField rightfieldStatsName;
     private javax.swing.JTextField secondPlaceRecord;
     private javax.swing.JTextField secondPlaceTeam;
+    private javax.swing.JTextField secondbaseStats;
+    private javax.swing.JTextField secondbaseStatsName;
     private javax.swing.JTextField seventeenthPlaceRecord;
     private javax.swing.JTextField seventeenthPlaceTeam;
     private javax.swing.JTextField seventhPlaceRecord;
     private javax.swing.JTextField seventhPlaceTeam;
+    private javax.swing.JTextField shortstopStats;
+    private javax.swing.JTextField shortstopStatsName;
     private javax.swing.JTextField sixteenthPlaceRecord;
     private javax.swing.JTextField sixteenthPlaceTeam;
     private javax.swing.JTextField sixthPlaceRecord;
@@ -942,6 +1149,8 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JTextField tenthPlaceTeam;
     private javax.swing.JTextField thirdPlaceRecord;
     private javax.swing.JTextField thirdPlaceTeam;
+    private javax.swing.JTextField thirdbaseStats;
+    private javax.swing.JTextField thirdbaseStatsName;
     private javax.swing.JTextField thirteenthPlaceRecord;
     private javax.swing.JTextField thirteenthPlaceTeam;
     private javax.swing.JTextField thirtiethPlaceRecord;

@@ -75,16 +75,12 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
        
        setupButtonListeners();
        setDropButtons();
-       
         try {
             // Example JSON array string
             PlayerGetter.playerGetter();
         } catch (IOException ex) {
             Logger.getLogger(TeamPicker.class.getName()).log(Level.SEVERE, null, ex);
         }
-        playerStats = PlayerGetter.xwobaGetter();
-        playerStats = Simulate.mvpGetter(playerStats);
-        PlayerGetter.mvpGetter(playerStats);
     }
     
     private void setDropButtons(){
@@ -525,6 +521,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
     private void simulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateButtonActionPerformed
         Simulate.getInstance();
+        playerStats = PlayerGetter.xwobaGetter();
+        playerStats = Simulate.playerSeasonSim(playerStats);
         String[] catcherName = catcherText.getText().split("_");
         String[] firstBaseName = catcherText.getText().split("_");
         String[] secondBaseName = catcherText.getText().split("_");
@@ -536,6 +534,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         String[] dhName = catcherText.getText().split("_");
         PlayerGetter.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1]);
         Simulate pi = new Simulate();
+        Simulate.returnMVP(playerStats);
         pi.setVisible(true);
     }//GEN-LAST:event_simulateButtonActionPerformed
 
@@ -696,7 +695,9 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
                     for (int i=0; i<9; i++){
                         if (e.getSource() == infoButtons[i]){
                             String playerInfoRequested = positions[i].getText().toLowerCase();
-                            String url = "https://www.foxsports.com/mlb/" + playerInfoRequested;
+                            String[] tempNameBuilder = playerInfoRequested.split("_");
+                            String playerSearchName = tempNameBuilder[0] + "-" + tempNameBuilder[1];
+                            String url = "https://www.foxsports.com/mlb/" + playerSearchName;
                             System.out.println(url);
                             Desktop.getDesktop().browse(new URL(url).toURI());
                         }
