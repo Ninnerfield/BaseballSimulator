@@ -75,10 +75,13 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
        setDropButtons();
         try {
             // Example JSON array string
-            PlayerGetter.playerGetter();
+            APIHander.playerGetter();
         } catch (IOException ex) {
             Logger.getLogger(TeamPicker.class.getName()).log(Level.SEVERE, null, ex);
         }
+         for (int i=0; i<9; i++){
+             positions[i].setEditable(false);
+         }
     }
     
     private void setDropButtons(){
@@ -91,8 +94,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private void dropPlayer(int i){
         positions[i].setText("Empty");
         drop = false;
-        setDropButtons();
-        
+        setDropButtons();     
     }
     
     private void addPlayer(int i){
@@ -558,8 +560,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         }else if(teamNameComboBox.getSelectedItem().equals("Choose a Team")){
             JOptionPane.showMessageDialog(null, "No Team Selected", "ALERT", JOptionPane.ERROR_MESSAGE);
         }else{
-            playerStats = PlayerGetter.xwobaGetter();
-            playerStats = PlayerGetter.playerSeasonSim(playerStats);
+            playerStats = APIHander.xwobaGetter();
+            playerStats = APIHander.playerSeasonSim(playerStats);
             String[] catcherName = catcherText.getText().split("_");
             String[] firstBaseName = firstBaseText.getText().split("_");
             String[] secondBaseName = secondBaseText.getText().split("_");
@@ -569,13 +571,13 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             String[] centerFieldName = centerFieldText.getText().split("_");
             String[] rightFieldName = rightFieldText.getText().split("_");
             String[] dhName = dhText.getText().split("_");
-            PlayerGetter.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1], teamNameComboBox.getSelectedItem().toString());
+            APIHander.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1], teamNameComboBox.getSelectedItem().toString());
             Simulate pi = new Simulate();
-            String mvpFullName = PlayerGetter.returnMVP(playerStats);
+            String mvpFullName = APIHander.returnMVP(playerStats);
             Simulate.setMVP(mvpFullName);
-            String mvpStats = PlayerGetter.playerStatsGetter(mvpFullName);
+            String mvpStats = APIHander.playerStatsGetter(mvpFullName);
             Simulate.setMVPStats(mvpStats);
-            Simulate.lineupPlayerTableInsert(catcherText.getText(), PlayerGetter.playerStatsGetter(catcherText.getText()), firstBaseText.getText(), PlayerGetter.playerStatsGetter(firstBaseText.getText()), secondBaseText.getText(), PlayerGetter.playerStatsGetter(secondBaseText.getText()), thirdBaseText.getText(), PlayerGetter.playerStatsGetter(thirdBaseText.getText()), shortStopText.getText(), PlayerGetter.playerStatsGetter(shortStopText.getText()), leftFieldText.getText(), PlayerGetter.playerStatsGetter(leftFieldText.getText()), centerFieldText.getText(), PlayerGetter.playerStatsGetter(centerFieldText.getText()), rightFieldText.getText(), PlayerGetter.playerStatsGetter(rightFieldText.getText()), dhText.getText(), PlayerGetter.playerStatsGetter(dhText.getText()));
+            Simulate.lineupPlayerTableInsert(catcherText.getText(), APIHander.playerStatsGetter(catcherText.getText()), firstBaseText.getText(), APIHander.playerStatsGetter(firstBaseText.getText()), secondBaseText.getText(), APIHander.playerStatsGetter(secondBaseText.getText()), thirdBaseText.getText(), APIHander.playerStatsGetter(thirdBaseText.getText()), shortStopText.getText(), APIHander.playerStatsGetter(shortStopText.getText()), leftFieldText.getText(), APIHander.playerStatsGetter(leftFieldText.getText()), centerFieldText.getText(), APIHander.playerStatsGetter(centerFieldText.getText()), rightFieldText.getText(), APIHander.playerStatsGetter(rightFieldText.getText()), dhText.getText(), APIHander.playerStatsGetter(dhText.getText()));
             pi.setVisible(true);
         }
     }//GEN-LAST:event_simulateButtonActionPerformed

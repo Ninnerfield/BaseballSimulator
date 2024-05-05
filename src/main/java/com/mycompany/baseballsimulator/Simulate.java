@@ -125,8 +125,10 @@ public class Simulate extends javax.swing.JFrame {
         rankRecords[28]= twentyninthPlaceRecord;
         rankRecords[29]= thirtiethPlaceRecord;
         Simulate.seasonSimulation();
-        
-
+        for (int i=0; i<30; i++){
+             teamRankings[i].setEditable(false);
+             rankRecords[i].setEditable(false);
+         }
     }
     
     // Public static method to get the single instance of the class
@@ -331,7 +333,6 @@ public class Simulate extends javax.swing.JFrame {
         }
         int index = 0;
         for (HashMap.Entry<String, Integer[]> entry : teamRecords.entrySet()) {
-                System.out.println(entry.getKey() + " -> " + entry.getValue()[0] + "-" + entry.getValue()[1]);
                 teamSorted[index] = entry.getValue()[0];
                 index++;
         }
@@ -440,6 +441,7 @@ public class Simulate extends javax.swing.JFrame {
         mvpStatsText = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         lineupTable = new javax.swing.JTable();
+        postSeasonSimulate = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -911,6 +913,15 @@ public class Simulate extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(lineupTable);
 
+        postSeasonSimulate.setBackground(new java.awt.Color(255, 0, 0));
+        postSeasonSimulate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        postSeasonSimulate.setText("Simulate Post-Season");
+        postSeasonSimulate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                postSeasonSimulateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -927,6 +938,10 @@ public class Simulate extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(postSeasonSimulate, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -938,8 +953,10 @@ public class Simulate extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mvpStatsText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(postSeasonSimulate, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1000,6 +1017,15 @@ public class Simulate extends javax.swing.JFrame {
     private void mvpTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mvpTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mvpTextActionPerformed
+
+    private void postSeasonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postSeasonSimulateActionPerformed
+        // TODO add your handling code here:
+        String Champion = SimulateHelper.postSeasonSimulation(firstPlaceTeam.getText(), secondPlaceTeam.getText(), thirdPlaceTeam.getText(), fourthPlaceTeam.getText(), fifthPlaceTeam.getText(), sixthPlaceTeam.getText(), seventhPlaceTeam.getText(), eighthPlaceTeam.getText(), ninthPlaceTeam.getText(), tenthPlaceTeam.getText());
+        PostSeason.getInstance();
+        PostSeason pi = new PostSeason();
+        pi.setVisible(true);
+        PostSeason.worldSeriesChampion(Champion);
+    }//GEN-LAST:event_postSeasonSimulateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1075,6 +1101,7 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JTextField nineteenthPlaceTeam;
     private javax.swing.JTextField ninthPlaceRecord;
     private javax.swing.JTextField ninthPlaceTeam;
+    private javax.swing.JButton postSeasonSimulate;
     private javax.swing.JTextField secondPlaceRecord;
     private javax.swing.JTextField secondPlaceTeam;
     private javax.swing.JTextField seventeenthPlaceRecord;

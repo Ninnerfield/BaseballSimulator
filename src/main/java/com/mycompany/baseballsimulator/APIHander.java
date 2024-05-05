@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  *
  * @author Ninnerfield
  */
-public class PlayerGetter {
+public class APIHander {
     /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -125,7 +125,7 @@ public class PlayerGetter {
                     mvpLastName = entry.getKey();
                 }
         }
-        String mvpFullName = PlayerGetter.nameGetter(mvpLastName);
+        String mvpFullName = APIHander.nameGetter(mvpLastName);
         results = mvpFullName +":" + results.valueOf(mvpWoba);
         return mvpFullName;
     }
@@ -172,9 +172,9 @@ public class PlayerGetter {
         String[] hrFinal =hrSplit[1].split(",");
         //Randomizes player home run count for a simulated season based on the year priors home run count
         int homeRuns = Integer.parseInt(hrFinal[0]);
-        int hrChangeValue = rand.nextInt(15);
-        if (hrChangeValue > 10){
-            hrChangeValue = hrChangeValue - 10;
+        int hrChangeValue = rand.nextInt(13);
+        if (hrChangeValue > 8){
+            hrChangeValue = hrChangeValue - 8;
             homeRuns = homeRuns - hrChangeValue;
         }else{
             homeRuns = homeRuns + hrChangeValue;
