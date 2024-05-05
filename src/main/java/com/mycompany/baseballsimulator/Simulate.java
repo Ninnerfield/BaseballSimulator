@@ -20,49 +20,14 @@ import javax.swing.table.DefaultTableModel;
 public class Simulate extends javax.swing.JFrame {
     private static Simulate instance;
     private static final HashMap<String, Double> teamWobas = new HashMap<>();
-    private static HashMap<String, Integer[]> teamRecords = new HashMap<>();
     private static JTextField[] teamRankings = new JTextField[30];
-    private static String winner;
-    private static String loser;
     private static Integer[] teamSorted = new Integer[31];
     private static JTextField[] rankRecords = new JTextField[31];
-    private static String results = null;
     /**
      * Creates new form NewJFrame
      */
     public Simulate() {
-        initComponents();
-        teamWobas.put("Dodgers", 0.337);
-        teamWobas.put("Yankees", 0.327);
-        teamWobas.put("Blue Jays", 0.331);
-        teamWobas.put("Cardinals", 0.326);
-        teamWobas.put("Mets", 0.326);
-        teamWobas.put("Astros", 0.324);
-        teamWobas.put("Braves", 0.330);
-        teamWobas.put("Brewers", 0.317);
-        teamWobas.put("Guardians", 0.306);
-        teamWobas.put("Mariners", 0.310);
-        teamWobas.put("Philles", 0.322);
-        teamWobas.put("Padres", 0.308);
-        teamWobas.put("Twins", 0.315);
-        teamWobas.put("Diamondbacks", 0.303);
-        teamWobas.put("Orioles", 0.305);
-        teamWobas.put("Rays", 0.302);
-        teamWobas.put("Red Sox", 0.319);
-        teamWobas.put("Cubs", 0.307);
-        teamWobas.put("Giants", 0.311);
-        teamWobas.put("Rangers", 0.305);
-        teamWobas.put("White Sox", 0.306);
-        teamWobas.put("Angels", 0.300);
-        teamWobas.put("Royals", 0.302);
-        teamWobas.put("Marlins", 0.290);
-        teamWobas.put("Rockies", 0.312);
-        teamWobas.put("Nationals", 0.303);
-        teamWobas.put("Pirates", 0.289);
-        teamWobas.put("Athletics", 0.277);
-        teamWobas.put("Reds", 0.299);
-        teamWobas.put("Tigers", 0.279);
-        
+        initComponents();      
         teamRankings[0]= firstPlaceTeam;
         teamRankings[1]= secondPlaceTeam;
         teamRankings[2]= thirdPlaceTeam;
@@ -149,16 +114,9 @@ public class Simulate extends javax.swing.JFrame {
     public static void setMVPStats (String mvpStats){
         mvpStatsText.setText(mvpStats);
     }
-    
-    public static void addYourTeam(String teamName, Double teamWoba){
-        for (HashMap.Entry<String, Double> teamsWoba : teamWobas.entrySet()) {
-            if (teamName.equals(teamsWoba.getKey())){
-                teamWobas.replace(teamName, teamWoba);
-            }
-        }
-    }
-    
+
     public static void lineupPlayerTableInsert(String catcher, String catcherStats, String firstBase, String firstBaseStats, String secondBase, String secondBaseStats, String thirdBase, String thirdBaseStats, String shortStop, String shortStopStats, String leftField, String leftFieldStats, String centerField, String centerFieldStats, String rightField, String rightFieldStats, String dh, String dhStats){
+        //Inserts players into the jTable
         String[] playerNames = new String[9];
         playerNames[0] = catcher;
         playerNames[1] = firstBase;
@@ -200,137 +158,8 @@ public class Simulate extends javax.swing.JFrame {
     
     
     public static void seasonSimulation(){
-       teamRecords.put("Dodgers", new Integer[]{0,0});
-       teamRecords.put("Yankees", new Integer[]{0,0});
-       teamRecords.put("Blue Jays", new Integer[]{0,0});
-       teamRecords.put("Cardinals", new Integer[]{0,0});
-       teamRecords.put("Mets", new Integer[]{0,0});
-       teamRecords.put("Astros", new Integer[]{0,0});
-       teamRecords.put("Braves", new Integer[]{0,0});
-       teamRecords.put("Brewers", new Integer[]{0,0});
-       teamRecords.put("Guardians", new Integer[]{0,0});
-       teamRecords.put("Mariners", new Integer[]{0,0});
-       teamRecords.put("Philles", new Integer[]{0,0});
-       teamRecords.put("Padres", new Integer[]{0,0});
-       teamRecords.put("Twins", new Integer[]{0,0});
-       teamRecords.put("Diamondbacks", new Integer[]{0,0});
-       teamRecords.put("Orioles", new Integer[]{0,0});
-       teamRecords.put("Rays", new Integer[]{0,0});
-       teamRecords.put("Red Sox", new Integer[]{0,0});
-       teamRecords.put("Cubs", new Integer[]{0,0});
-       teamRecords.put("Giants", new Integer[]{0,0});
-       teamRecords.put("Rangers", new Integer[]{0,0});
-       teamRecords.put("White Sox", new Integer[]{0,0});
-       teamRecords.put("Angels", new Integer[]{0,0});
-       teamRecords.put("Royals", new Integer[]{0,0});
-       teamRecords.put("Marlins", new Integer[]{0,0});
-       teamRecords.put("Rockies", new Integer[]{0,0});
-       teamRecords.put("Nationals", new Integer[]{0,0});
-       teamRecords.put("Pirates", new Integer[]{0,0});
-       teamRecords.put("Athletics", new Integer[]{0,0});
-       teamRecords.put("Reds", new Integer[]{0,0});
-       teamRecords.put("Tigers", new Integer[]{0,0});
-        Random rand = new Random(); 
-        for(int i=0; i<4; i++){
-            for (HashMap.Entry<String, Double> homeTeams : teamWobas.entrySet()) {
-                for(HashMap.Entry<String, Double> awayTeams : teamWobas.entrySet()){
-                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 163 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 163){                 
-                        if (homeTeams.getValue() > awayTeams.getValue()){ //If the home team has a higher woba it gives them the advantage
-                            if (homeTeams.getValue() > awayTeams.getValue() + .2f){
-                                float changeValue = rand.nextFloat(); 
-                                if (changeValue <= .73f){ //If the random number is below .73 then the home team wins giving them a 73% chance of victory
-                                   winner = homeTeams.getKey();
-                                   loser = awayTeams.getKey();
-                                   if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                       teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                       teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                                   }
-                                   }else{ //27% chance of victory for the away team
-                                       winner = awayTeams.getKey();
-                                       loser = homeTeams.getKey();
-                                       if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                            teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                            teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});      
-                                       }
-                                   }
-                                }else{
-                                    float changeValue = rand.nextFloat(); 
-                                    if (changeValue <= .6f){ //If the random number is below .6 then the home team wins giving them a 60% chance of victory
-                                        winner = homeTeams.getKey();
-                                        loser = awayTeams.getKey();
-                                        if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                                    }
-                                    }else{ //40% chance of victory for the away team
-                                        winner = awayTeams.getKey();
-                                        loser = homeTeams.getKey();
-                                        if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});      
-                                    }
-                                }
-                            }
-                        }else if (homeTeams.getValue() < awayTeams.getValue()){//If the away team has a higher woba it gives them the advantage
-                            if (homeTeams.getValue() < awayTeams.getValue() + .2f){
-                                float changeValue = rand.nextFloat(); 
-                                if (changeValue >= .73f){ //If the random number is above .6 then the home team wins giving them a 60% chance of victory
-                                    winner = homeTeams.getKey();
-                                    loser = awayTeams.getKey();
-                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-
-                                    }
-                                }else{ //40% chance of victory for the away team
-                                    winner = awayTeams.getKey();
-                                    loser = homeTeams.getKey();
-                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                                    }
-                                }
-                            }else{
-                                float changeValue = rand.nextFloat(); 
-                                if (changeValue >= .6f){ //If the random number is above .6 then the home team wins giving them a 60% chance of victory
-                                    winner = homeTeams.getKey();
-                                    loser = awayTeams.getKey();
-                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                                    }
-                                }else{ //40% chance of victory for the away team
-                                    winner = awayTeams.getKey();
-                                    loser = homeTeams.getKey();
-                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-
-                                    }
-                                }
-                            }
-                        } else{//If they have the same woba it's a 50/50
-                            float changeValue = rand.nextFloat(); 
-                            if (changeValue <= .5f){ //If the random number is below .5 then the home team wins giving them a 60% chance of victory
-                                winner = homeTeams.getKey();
-                                loser = awayTeams.getKey();
-                                if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                    teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                    teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                                }
-                            }else{ //40% chance of victory for the away team
-                                winner = awayTeams.getKey();
-                                loser = homeTeams.getKey();
-                                if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
-                                    teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                    teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                                }
-                            }
-                        }
-                    }
-                }        
-            }
-        }
+        //Simulates a season in Simulate Helper and gets a HashMap that is used to place the teams in their respective league placements based on their record
+        HashMap<String, Integer[]> teamRecords = SimulateHelper.simulateSeason();
         int index = 0;
         for (HashMap.Entry<String, Integer[]> entry : teamRecords.entrySet()) {
                 teamSorted[index] = entry.getValue()[0];
@@ -341,7 +170,6 @@ public class Simulate extends javax.swing.JFrame {
         for(int t=0; t<29; t++){
             for (HashMap.Entry<String, Integer[]> entry : teamRecords.entrySet()) {
                 if (entry.getValue()[0] == teamSorted[i]){
-                    System.out.println(i);
                     teamRankings[i].setText(entry.getKey());
                     rankRecords[i].setText(entry.getValue()[0].toString() + "-" + entry.getValue()[1].toString());
                     teamRecords.replace(entry.getKey(), new Integer[] {0, 0});
@@ -915,6 +743,7 @@ public class Simulate extends javax.swing.JFrame {
 
         postSeasonSimulate.setBackground(new java.awt.Color(255, 0, 0));
         postSeasonSimulate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        postSeasonSimulate.setForeground(new java.awt.Color(255, 255, 255));
         postSeasonSimulate.setText("Simulate Post-Season");
         postSeasonSimulate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1019,12 +848,13 @@ public class Simulate extends javax.swing.JFrame {
     }//GEN-LAST:event_mvpTextActionPerformed
 
     private void postSeasonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postSeasonSimulateActionPerformed
-        // TODO add your handling code here:
+        // Simulates the playoffs
         String Champion = SimulateHelper.postSeasonSimulation(firstPlaceTeam.getText(), secondPlaceTeam.getText(), thirdPlaceTeam.getText(), fourthPlaceTeam.getText(), fifthPlaceTeam.getText(), sixthPlaceTeam.getText(), seventhPlaceTeam.getText(), eighthPlaceTeam.getText(), ninthPlaceTeam.getText(), tenthPlaceTeam.getText());
         PostSeason.getInstance();
         PostSeason pi = new PostSeason();
         pi.setVisible(true);
         PostSeason.worldSeriesChampion(Champion);
+        postSeasonSimulate.setEnabled(false);
     }//GEN-LAST:event_postSeasonSimulateActionPerformed
 
     /**

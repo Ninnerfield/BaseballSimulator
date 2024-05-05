@@ -34,9 +34,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     boolean sameName = false;
     private String jsonReader;
     private HashMap<String, Float> playerStats = new HashMap<String, Float>();
-
-
-//    ImageIcon imageTrophy = new ImageIcon("Tropy_Gold.png");
     
     public TeamPicker() {
        initComponents();
@@ -75,7 +72,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
        setDropButtons();
         try {
             // Example JSON array string
-            APIHander.playerGetter();
+            APIHandler.playerGetter();
         } catch (IOException ex) {
             Logger.getLogger(TeamPicker.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,7 +86,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             dropButtons[i].setEnabled(false);
         }
     }
-    
     
     private void dropPlayer(int i){
         positions[i].setText("Empty");
@@ -552,7 +548,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void simulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateButtonActionPerformed
-        
+        //Creates instance of Simulate class and has expections if the proper fields aren't filled out
         Simulate.getInstance();
         boolean positionsFilled = ExceptionHandler.lineupFilled(positions);
         if (!positionsFilled){
@@ -560,8 +556,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         }else if(teamNameComboBox.getSelectedItem().equals("Choose a Team")){
             JOptionPane.showMessageDialog(null, "No Team Selected", "ALERT", JOptionPane.ERROR_MESSAGE);
         }else{
-            playerStats = APIHander.xwobaGetter();
-            playerStats = APIHander.playerSeasonSim(playerStats);
+            playerStats = APIHandler.xwobaGetter();
+            playerStats = APIHandler.playerSeasonSim(playerStats);
             String[] catcherName = catcherText.getText().split("_");
             String[] firstBaseName = firstBaseText.getText().split("_");
             String[] secondBaseName = secondBaseText.getText().split("_");
@@ -571,13 +567,15 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             String[] centerFieldName = centerFieldText.getText().split("_");
             String[] rightFieldName = rightFieldText.getText().split("_");
             String[] dhName = dhText.getText().split("_");
-            APIHander.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1], teamNameComboBox.getSelectedItem().toString());
+            simulateButton.setEnabled(false);
+            new APIHandler();
+            APIHandler.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1], teamNameComboBox.getSelectedItem().toString());
             Simulate pi = new Simulate();
-            String mvpFullName = APIHander.returnMVP(playerStats);
+            String mvpFullName = APIHandler.returnMVP(playerStats);
             Simulate.setMVP(mvpFullName);
-            String mvpStats = APIHander.playerStatsGetter(mvpFullName);
+            String mvpStats = APIHandler.playerStatsGetter(mvpFullName);
             Simulate.setMVPStats(mvpStats);
-            Simulate.lineupPlayerTableInsert(catcherText.getText(), APIHander.playerStatsGetter(catcherText.getText()), firstBaseText.getText(), APIHander.playerStatsGetter(firstBaseText.getText()), secondBaseText.getText(), APIHander.playerStatsGetter(secondBaseText.getText()), thirdBaseText.getText(), APIHander.playerStatsGetter(thirdBaseText.getText()), shortStopText.getText(), APIHander.playerStatsGetter(shortStopText.getText()), leftFieldText.getText(), APIHander.playerStatsGetter(leftFieldText.getText()), centerFieldText.getText(), APIHander.playerStatsGetter(centerFieldText.getText()), rightFieldText.getText(), APIHander.playerStatsGetter(rightFieldText.getText()), dhText.getText(), APIHander.playerStatsGetter(dhText.getText()));
+            Simulate.lineupPlayerTableInsert(catcherText.getText(), APIHandler.playerStatsGetter(catcherText.getText()), firstBaseText.getText(), APIHandler.playerStatsGetter(firstBaseText.getText()), secondBaseText.getText(), APIHandler.playerStatsGetter(secondBaseText.getText()), thirdBaseText.getText(), APIHandler.playerStatsGetter(thirdBaseText.getText()), shortStopText.getText(), APIHandler.playerStatsGetter(shortStopText.getText()), leftFieldText.getText(), APIHandler.playerStatsGetter(leftFieldText.getText()), centerFieldText.getText(), APIHandler.playerStatsGetter(centerFieldText.getText()), rightFieldText.getText(), APIHandler.playerStatsGetter(rightFieldText.getText()), dhText.getText(), APIHandler.playerStatsGetter(dhText.getText()));
             pi.setVisible(true);
         }
     }//GEN-LAST:event_simulateButtonActionPerformed
@@ -615,13 +613,12 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_rightFieldTextActionPerformed
 
     private void dropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropBtnActionPerformed
-        // TODO add your handling code here:
+        // Sets the buttons to drop mode and their color to red
         for (int i=0; i<9; i++){
             dropButtons[i].setEnabled(true);
             dropButtons[i].setBackground(Color.red);
             drop = true;
             String[] test = catcherText.getText().split("_");
-            System.out.println(test[1]);
         }
     }//GEN-LAST:event_dropBtnActionPerformed
 
@@ -732,6 +729,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     // End of variables declaration//GEN-END:variables
 
     public void setupButtonListeners(){
+        //handles drop/add buttons
         ActionListener dropButtonListener = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -748,7 +746,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
                     }
                 }
             } 
-        };
+        };//Handles info buttons
         ActionListener infoButtonListener = new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {

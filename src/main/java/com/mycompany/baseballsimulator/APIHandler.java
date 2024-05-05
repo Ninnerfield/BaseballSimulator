@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  *
  * @author Ninnerfield
  */
-public class APIHander {
+public class APIHandler {
     /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -125,7 +125,7 @@ public class APIHander {
                     mvpLastName = entry.getKey();
                 }
         }
-        String mvpFullName = APIHander.nameGetter(mvpLastName);
+        String mvpFullName = APIHandler.nameGetter(mvpLastName);
         results = mvpFullName +":" + results.valueOf(mvpWoba);
         return mvpFullName;
     }
@@ -190,10 +190,8 @@ public class APIHander {
     public static void yourTeamWobaGetter(String catcher, String firstBase, String secondBase, String thirdBase, String shortStop, String leftField, String centerField, String rightField, String dh, String team){
             // Put starting lineup in hashmap for when you give their stats
             float yourTeamWoba = (playerWobas.get(catcher) + playerWobas.get(firstBase) + playerWobas.get(secondBase) + playerWobas.get(thirdBase) + playerWobas.get(shortStop) + playerWobas.get(leftField) + playerWobas.get(centerField) + playerWobas.get(rightField) + playerWobas.get(dh)) / 9;
-            System.out.println("Your Team Woba = " + yourTeamWoba);
             double yourTeamWobaDouble = yourTeamWoba;
-            System.out.println(yourTeamWobaDouble);
-            Simulate.addYourTeam(team, yourTeamWobaDouble);
+            SimulateHelper.addYourTeam(team, yourTeamWobaDouble);
     }
 }
 

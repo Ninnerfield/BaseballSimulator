@@ -15,8 +15,9 @@ public class ExceptionHandler {
 
 
 public static boolean lineupFilled(JTextField[] textFields){
+    //Makes sure everything is filled in on the first screen
     for (JTextField textField : textFields){
-        if (textField.getText().equals("Empty")){
+        if (textField.getText().equals("Empty") || textField.getText().equals("Choose_Player")){
             return false;
         }
     }

@@ -19,6 +19,7 @@ public class PostSeason extends javax.swing.JFrame {
      * Creates new form PostSeason
      */
     public PostSeason() {
+        //Sets the image to scale code based on: https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel
         initComponents();
         ImageIcon icon = new ImageIcon("C:\\Users\\ninne\\OneDrive\\Documents\\NetBeansProjects\\BaseballSimulator\\src\\main\\resources\\Trophy_Gold.png");
         Image img = icon.getImage();
@@ -38,6 +39,7 @@ public class PostSeason extends javax.swing.JFrame {
     }
     
    public static void worldSeriesChampion(String worldSeriesChamp){
+       //Sets world series champ
         worldSeriesText.setText(worldSeriesChamp);
         worldSeriesText.setHorizontalAlignment(JLabel.CENTER);
     }
