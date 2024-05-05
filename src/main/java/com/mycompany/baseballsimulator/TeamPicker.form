@@ -62,6 +62,20 @@
         </DimensionLayout>
       </Layout>
     </Container>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextPane" name="playerSearch">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Player Last Name"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -597,25 +611,6 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="269" y="16" width="120" height="-1"/>
-        </Constraint>
-      </Constraints>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTextPane" name="playerSearch">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Player Last Name"/>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JPanel" name="jPanel4">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -683,9 +678,21 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="216" max="32767" attributes="0"/>
-                  <Component id="simulateButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace pref="216" max="32767" attributes="0"/>
+                          <Component id="simulateButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="playerSearchBox" max="32767" attributes="0"/>
+                              <Component id="teamNameComboBox" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -693,7 +700,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel2" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <Component id="playerSearchBox" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                  <Component id="teamNameComboBox" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="150" max="32767" attributes="0"/>
                   <Component id="simulateButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
@@ -783,6 +794,656 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="simulateButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="playerSearchBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="594">
+                <StringItem index="0" value="Choose Player"/>
+                <StringItem index="1" value="Miguel Cabrera"/>
+                <StringItem index="2" value="Yadier Molina"/>
+                <StringItem index="3" value="Robinson Cano"/>
+                <StringItem index="4" value="Kurt Suzuki"/>
+                <StringItem index="5" value="Nelson Cruz"/>
+                <StringItem index="6" value="David Peralta"/>
+                <StringItem index="7" value="Manny Pina"/>
+                <StringItem index="8" value="Alcides Escobar"/>
+                <StringItem index="9" value="Evan Longoria"/>
+                <StringItem index="10" value="Charlie Blackmon"/>
+                <StringItem index="11" value="Martin Maldonado"/>
+                <StringItem index="12" value="Robinson Chirinos"/>
+                <StringItem index="13" value="Lorenzo Cain"/>
+                <StringItem index="14" value="Donovan Solano"/>
+                <StringItem index="15" value="Andrew McCutchen"/>
+                <StringItem index="16" value="Justin Upton"/>
+                <StringItem index="17" value="Justin Turner"/>
+                <StringItem index="18" value="Joey Votto"/>
+                <StringItem index="19" value="Elvis Andrus"/>
+                <StringItem index="20" value="Carlos Santana"/>
+                <StringItem index="21" value="Brandon Belt"/>
+                <StringItem index="22" value="Jed Lowrie"/>
+                <StringItem index="23" value="Michael Brantley"/>
+                <StringItem index="24" value="Jason Castro"/>
+                <StringItem index="25" value="Yuli Gurriel"/>
+                <StringItem index="26" value="Miguel Rojas"/>
+                <StringItem index="27" value="Eduardo Escobar"/>
+                <StringItem index="28" value="Ehire Adrianza"/>
+                <StringItem index="29" value="Juan Lagares"/>
+                <StringItem index="30" value="Abraham Almonte"/>
+                <StringItem index="31" value="Tommy Pham"/>
+                <StringItem index="32" value="J.D. Martinez"/>
+                <StringItem index="33" value="Paul Goldschmidt"/>
+                <StringItem index="34" value="Marwin Gonzalez"/>
+                <StringItem index="35" value="Sandy Leon"/>
+                <StringItem index="36" value="Jose Altuve"/>
+                <StringItem index="37" value="Cesar Hernandez"/>
+                <StringItem index="38" value="Jean Segura"/>
+                <StringItem index="39" value="Starling Marte"/>
+                <StringItem index="40" value="Charlie Culberson"/>
+                <StringItem index="41" value="Travis d&apos;Arnaud"/>
+                <StringItem index="42" value="Josh Donaldson"/>
+                <StringItem index="43" value="Freddie Freeman"/>
+                <StringItem index="44" value="Yasmani Grandal"/>
+                <StringItem index="45" value="Jason Heyward"/>
+                <StringItem index="46" value="DJ LeMahieu"/>
+                <StringItem index="47" value="Mike Moustakas"/>
+                <StringItem index="48" value="Anthony Rizzo"/>
+                <StringItem index="49" value="Austin Romine"/>
+                <StringItem index="50" value="Steven Souza"/>
+                <StringItem index="51" value="Giancarlo Stanton"/>
+                <StringItem index="52" value="Stephen Vogt"/>
+                <StringItem index="53" value="Salvador Perez"/>
+                <StringItem index="54" value="Wilmer Flores"/>
+                <StringItem index="55" value="Avisail Garcia"/>
+                <StringItem index="56" value="Christian Bethancourt"/>
+                <StringItem index="57" value="Marcell Ozuna"/>
+                <StringItem index="58" value="Jonathan Villar"/>
+                <StringItem index="59" value="Rafael Ortega"/>
+                <StringItem index="60" value="Jesus Aguilar"/>
+                <StringItem index="61" value="Tim Beckham"/>
+                <StringItem index="62" value="Jon Berti"/>
+                <StringItem index="63" value="Brandon Crawford"/>
+                <StringItem index="64" value="C.J. Cron"/>
+                <StringItem index="65" value="Alex Dickerson"/>
+                <StringItem index="66" value="Yan Gomes"/>
+                <StringItem index="67" value="Robbie Grossman"/>
+                <StringItem index="68" value="Josh Harrison"/>
+                <StringItem index="69" value="Aaron Hicks"/>
+                <StringItem index="70" value="Kyle Higashioka"/>
+                <StringItem index="71" value="Eric Hosmer"/>
+                <StringItem index="72" value="James McCann"/>
+                <StringItem index="73" value="Brad Miller"/>
+                <StringItem index="74" value="Austin Nola"/>
+                <StringItem index="75" value="Anthony Rendon"/>
+                <StringItem index="76" value="Marcus Semien"/>
+                <StringItem index="77" value="Travis Shaw"/>
+                <StringItem index="78" value="George Springer"/>
+                <StringItem index="79" value="Dee Strange-Gordon"/>
+                <StringItem index="80" value="Christian Vazquez"/>
+                <StringItem index="81" value="Kolten Wong"/>
+                <StringItem index="82" value="Didi Gregorius"/>
+                <StringItem index="83" value="Leury Garcia"/>
+                <StringItem index="84" value="Ildemaro Vargas"/>
+                <StringItem index="85" value="Randal Grichuk"/>
+                <StringItem index="86" value="Jake Marisnick"/>
+                <StringItem index="87" value="Max Stassi"/>
+                <StringItem index="88" value="Mike Trout"/>
+                <StringItem index="89" value="Odubel Herrera"/>
+                <StringItem index="90" value="Albert Almora"/>
+                <StringItem index="91" value="Christian Lopes"/>
+                <StringItem index="92" value="Bryce Harper"/>
+                <StringItem index="93" value="Roberto Perez"/>
+                <StringItem index="94" value="Jose Abreu"/>
+                <StringItem index="95" value="Elias Diaz"/>
+                <StringItem index="96" value="Omar Narvaez"/>
+                <StringItem index="97" value="Willians Astudillo"/>
+                <StringItem index="98" value="Dixon Machado"/>
+                <StringItem index="99" value="Eugenio Suarez"/>
+                <StringItem index="100" value="Erik Gonzalez"/>
+                <StringItem index="101" value="Gio Urshela"/>
+                <StringItem index="102" value="Carlos Sanchez"/>
+                <StringItem index="103" value="Jonathan Schoop"/>
+                <StringItem index="104" value="Nolan Arenado"/>
+                <StringItem index="105" value="Tucker Barnhart"/>
+                <StringItem index="106" value="Matt Davidson"/>
+                <StringItem index="107" value="Kyle Farmer"/>
+                <StringItem index="108" value="Billy Hamilton"/>
+                <StringItem index="109" value="Mitch Haniger"/>
+                <StringItem index="110" value="Enrique Hernandez"/>
+                <StringItem index="111" value="Jake Lamb"/>
+                <StringItem index="112" value="Luke Maile"/>
+                <StringItem index="113" value="Max Muncy"/>
+                <StringItem index="114" value="Wil Myers"/>
+                <StringItem index="115" value="Tyler Naquin"/>
+                <StringItem index="116" value="Chris Owings"/>
+                <StringItem index="117" value="Stephen Piscotty"/>
+                <StringItem index="118" value="AJ Pollock"/>
+                <StringItem index="119" value="Michael Taylor"/>
+                <StringItem index="120" value="Trayce Thompson"/>
+                <StringItem index="121" value="Luke Voit"/>
+                <StringItem index="122" value="Christian Walker"/>
+                <StringItem index="123" value="Mike Zunino"/>
+                <StringItem index="124" value="Matt Carpenter"/>
+                <StringItem index="125" value="Corey Dickerson"/>
+                <StringItem index="126" value="Dustin Garneau"/>
+                <StringItem index="127" value="Darin Ruf"/>
+                <StringItem index="128" value="Mike Yastrzemski"/>
+                <StringItem index="129" value="Willson Contreras"/>
+                <StringItem index="130" value="Jose Iglesias"/>
+                <StringItem index="131" value="Wynton Bernard"/>
+                <StringItem index="132" value="Kris Bryant"/>
+                <StringItem index="133" value="Mark Canha"/>
+                <StringItem index="134" value="Curt Casali"/>
+                <StringItem index="135" value="Nick Castellanos"/>
+                <StringItem index="136" value="Brandon Drury"/>
+                <StringItem index="137" value="Ben Gamel"/>
+                <StringItem index="138" value="Niko Goodrum"/>
+                <StringItem index="139" value="Aaron Judge"/>
+                <StringItem index="140" value="Manny Machado"/>
+                <StringItem index="141" value="Colin Moran"/>
+                <StringItem index="142" value="Mark Payton"/>
+                <StringItem index="143" value="Joc Pederson"/>
+                <StringItem index="144" value="J.T. Realmuto"/>
+                <StringItem index="145" value="Hunter Renfroe"/>
+                <StringItem index="146" value="Eddie Rosario"/>
+                <StringItem index="147" value="Andrelton Simmons"/>
+                <StringItem index="148" value="Christian Yelich"/>
+                <StringItem index="149" value="Whit Merrifield"/>
+                <StringItem index="150" value="Xander Bogaerts"/>
+                <StringItem index="151" value="Hanser Alberto"/>
+                <StringItem index="152" value="Jorge Polanco"/>
+                <StringItem index="153" value="Miguel Sano"/>
+                <StringItem index="154" value="Kole Calhoun"/>
+                <StringItem index="155" value="Adam Duvall"/>
+                <StringItem index="156" value="Phil Gosselin"/>
+                <StringItem index="157" value="Kevin Kiermaier"/>
+                <StringItem index="158" value="Andrew Knapp"/>
+                <StringItem index="159" value="Chad Wallach"/>
+                <StringItem index="160" value="Jorge Alfaro"/>
+                <StringItem index="161" value="Jurickson Profar"/>
+                <StringItem index="162" value="Javier Baez"/>
+                <StringItem index="163" value="Jake Cave"/>
+                <StringItem index="164" value="Cam Gallagher"/>
+                <StringItem index="165" value="Austin Hedges"/>
+                <StringItem index="166" value="Francisco Lindor"/>
+                <StringItem index="167" value="Rougned Odor"/>
+                <StringItem index="168" value="Austin Slater"/>
+                <StringItem index="169" value="Trevor Story"/>
+                <StringItem index="170" value="Garrett Stubbs"/>
+                <StringItem index="171" value="Daniel Vogelbach"/>
+                <StringItem index="172" value="Gary Sanchez"/>
+                <StringItem index="173" value="Max Kepler"/>
+                <StringItem index="174" value="Roman Quinn"/>
+                <StringItem index="175" value="Maikel Franco"/>
+                <StringItem index="176" value="Ji-Man Choi"/>
+                <StringItem index="177" value="Jackie Bradley"/>
+                <StringItem index="178" value="Tommy LaStella"/>
+                <StringItem index="179" value="Pedro Severino"/>
+                <StringItem index="180" value="Jeimer Candelario"/>
+                <StringItem index="181" value="Yonathan Daza"/>
+                <StringItem index="182" value="Ramon Urias"/>
+                <StringItem index="183" value="Nick Ahmed"/>
+                <StringItem index="184" value="Brian Anderson"/>
+                <StringItem index="185" value="Austin Barnes"/>
+                <StringItem index="186" value="Josh Bell"/>
+                <StringItem index="187" value="Mookie Betts"/>
+                <StringItem index="188" value="Victor Caratini"/>
+                <StringItem index="189" value="J.D. Davis"/>
+                <StringItem index="190" value="Aramis Garcia"/>
+                <StringItem index="191" value="Vimael Machin"/>
+                <StringItem index="192" value="Michael Perez"/>
+                <StringItem index="193" value="Dillon Thomas"/>
+                <StringItem index="194" value="Bradley Zimmer"/>
+                <StringItem index="195" value="Harold Castro"/>
+                <StringItem index="196" value="Esteban Quiroz"/>
+                <StringItem index="197" value="Orlando Arcia"/>
+                <StringItem index="198" value="Raimel Tapia"/>
+                <StringItem index="199" value="Aristides Aquino"/>
+                <StringItem index="200" value="Teoscar Hernandez"/>
+                <StringItem index="201" value="Yermin Mercedes"/>
+                <StringItem index="202" value="Ketel Marte"/>
+                <StringItem index="203" value="Eric Haase"/>
+                <StringItem index="204" value="Jake Hager"/>
+                <StringItem index="205" value="Brandon Nimmo"/>
+                <StringItem index="206" value="Jace Peterson"/>
+                <StringItem index="207" value="Trea Turner"/>
+                <StringItem index="208" value="Jason Krizan"/>
+                <StringItem index="209" value="Matt Beaty"/>
+                <StringItem index="210" value="Kevin Pillar"/>
+                <StringItem index="211" value="Jacob Stallings"/>
+                <StringItem index="212" value="Jose Ramirez"/>
+                <StringItem index="213" value="Alex Bregman"/>
+                <StringItem index="214" value="Joey Gallo"/>
+                <StringItem index="215" value="Carson Kelly"/>
+                <StringItem index="216" value="Chris Okey"/>
+                <StringItem index="217" value="Corey Seager"/>
+                <StringItem index="218" value="Jesse Winker"/>
+                <StringItem index="219" value="Jose Godoy"/>
+                <StringItem index="220" value="Nomar Mazara"/>
+                <StringItem index="221" value="Tom Murphy"/>
+                <StringItem index="222" value="Travis Jankowski"/>
+                <StringItem index="223" value="Jack Mayfield"/>
+                <StringItem index="224" value="Kevin Plawecki"/>
+                <StringItem index="225" value="Rob Refsnyder"/>
+                <StringItem index="226" value="Matt Reynolds"/>
+                <StringItem index="227" value="Joey Meneses"/>
+                <StringItem index="228" value="Elier Hernandez"/>
+                <StringItem index="229" value="Adalberto Mondesi"/>
+                <StringItem index="230" value="Miguel Andujar"/>
+                <StringItem index="231" value="Jason Vosler"/>
+                <StringItem index="232" value="Franchy Cordero"/>
+                <StringItem index="233" value="Franmil Reyes"/>
+                <StringItem index="234" value="Luis Torrens"/>
+                <StringItem index="235" value="Richie Martin"/>
+                <StringItem index="236" value="Max Schrock"/>
+                <StringItem index="237" value="Dansby Swanson"/>
+                <StringItem index="238" value="Kevin Newman"/>
+                <StringItem index="239" value="Chris Taylor"/>
+                <StringItem index="240" value="Carlos Correa"/>
+                <StringItem index="241" value="Brett Phillips"/>
+                <StringItem index="242" value="Tyrone Taylor"/>
+                <StringItem index="243" value="Byron Buxton"/>
+                <StringItem index="244" value="Lewis Brinson"/>
+                <StringItem index="245" value="Skye Bolt"/>
+                <StringItem index="246" value="Steven Duggar"/>
+                <StringItem index="247" value="Edwin Rios"/>
+                <StringItem index="248" value="Taylor Ward"/>
+                <StringItem index="249" value="Tomas Nido"/>
+                <StringItem index="250" value="Anthony Bemboom"/>
+                <StringItem index="251" value="Patrick Wisdom"/>
+                <StringItem index="252" value="Joey Wendle"/>
+                <StringItem index="253" value="Matt Olson"/>
+                <StringItem index="254" value="Matt Duffy"/>
+                <StringItem index="255" value="Yairo Munoz"/>
+                <StringItem index="256" value="Donovan Walton"/>
+                <StringItem index="257" value="Manuel Margot"/>
+                <StringItem index="258" value="Pablo Reyes"/>
+                <StringItem index="259" value="Johan Camargo"/>
+                <StringItem index="260" value="Victor Reyes"/>
+                <StringItem index="261" value="Jorge Mateo"/>
+                <StringItem index="262" value="Tyler Heineman"/>
+                <StringItem index="263" value="Andrew Velazquez"/>
+                <StringItem index="264" value="David Bote"/>
+                <StringItem index="265" value="Harold Ramirez"/>
+                <StringItem index="266" value="Anthony Santander"/>
+                <StringItem index="267" value="Pete Alonso"/>
+                <StringItem index="268" value="Christian Arroyo"/>
+                <StringItem index="269" value="Cavan Biggio"/>
+                <StringItem index="270" value="Adam Frazier"/>
+                <StringItem index="271" value="Jose Trevino"/>
+                <StringItem index="272" value="Nick Gordon"/>
+                <StringItem index="273" value="Reese McGuire"/>
+                <StringItem index="274" value="Dom Nunez"/>
+                <StringItem index="275" value="Jorge Soler"/>
+                <StringItem index="276" value="Edmundo Sosa"/>
+                <StringItem index="277" value="Guillermo Heredia"/>
+                <StringItem index="278" value="Yadiel Hernandez"/>
+                <StringItem index="279" value="Andy Ibanez"/>
+                <StringItem index="280" value="Jake Cronenworth"/>
+                <StringItem index="281" value="Clint Frazier"/>
+                <StringItem index="282" value="Austin Meadows"/>
+                <StringItem index="283" value="Oscar Mercado"/>
+                <StringItem index="284" value="Chad Pinder"/>
+                <StringItem index="285" value="Jose Azocar"/>
+                <StringItem index="286" value="Tim Anderson"/>
+                <StringItem index="287" value="Cody Bellinger"/>
+                <StringItem index="288" value="Willie Calhoun"/>
+                <StringItem index="289" value="Zack Collins"/>
+                <StringItem index="290" value="J.P. Crawford"/>
+                <StringItem index="291" value="Jonathan Davis"/>
+                <StringItem index="292" value="Jason Delay"/>
+                <StringItem index="293" value="Ben DeLuzio"/>
+                <StringItem index="294" value="Travis Demeritte"/>
+                <StringItem index="295" value="Brandon Dixon"/>
+                <StringItem index="296" value="Hunter Dozier"/>
+                <StringItem index="297" value="Adam Engel"/>
+                <StringItem index="298" value="Jake Fraley"/>
+                <StringItem index="299" value="Mitch Garver"/>
+                <StringItem index="300" value="Luis Guillorme"/>
+                <StringItem index="301" value="Garrett Hampson"/>
+                <StringItem index="302" value="Jonah Heim"/>
+                <StringItem index="303" value="Michael Hermosillo"/>
+                <StringItem index="304" value="Gosuke Katoh"/>
+                <StringItem index="305" value="Charles Leblanc"/>
+                <StringItem index="306" value="Kyle Lewis"/>
+                <StringItem index="307" value="Tim Locastro"/>
+                <StringItem index="308" value="Trey Mancini"/>
+                <StringItem index="309" value="Billy McKinney"/>
+                <StringItem index="310" value="Ryan McMahon"/>
+                <StringItem index="311" value="Sheldon Neuse"/>
+                <StringItem index="312" value="Tyler O&apos;Neill"/>
+                <StringItem index="313" value="Josh Palacios"/>
+                <StringItem index="314" value="Chuckie Robinson"/>
+                <StringItem index="315" value="Dominic Smith"/>
+                <StringItem index="316" value="Rowdy Tellez"/>
+                <StringItem index="317" value="Matt Thaiss"/>
+                <StringItem index="318" value="Cody Thomas"/>
+                <StringItem index="319" value="Josh VanMeter"/>
+                <StringItem index="320" value="Tyler Wade"/>
+                <StringItem index="321" value="Eli White"/>
+                <StringItem index="322" value="Francisco Mejia"/>
+                <StringItem index="323" value="Jose Siri"/>
+                <StringItem index="324" value="Magneuris Sierra"/>
+                <StringItem index="325" value="Luis Barrera"/>
+                <StringItem index="326" value="Amed Rosario"/>
+                <StringItem index="327" value="Willy Adames"/>
+                <StringItem index="328" value="Kelvin Gutierrez"/>
+                <StringItem index="329" value="Sergio Alcantara"/>
+                <StringItem index="330" value="Thairo Estrada"/>
+                <StringItem index="331" value="Austin Wynns"/>
+                <StringItem index="332" value="Andrew Benintendi"/>
+                <StringItem index="333" value="Garrett Cooper"/>
+                <StringItem index="334" value="Mauricio Dubon"/>
+                <StringItem index="335" value="Caleb Hamilton"/>
+                <StringItem index="336" value="Danny Jansen"/>
+                <StringItem index="337" value="Tony Kemp"/>
+                <StringItem index="338" value="Isiah Kiner-Falefa"/>
+                <StringItem index="339" value="Jeff McNeil"/>
+                <StringItem index="340" value="Frank Schwindel"/>
+                <StringItem index="341" value="Yu Chang"/>
+                <StringItem index="342" value="Ozzie Albies"/>
+                <StringItem index="343" value="Victor Robles"/>
+                <StringItem index="344" value="Jose Herrera"/>
+                <StringItem index="345" value="Mike Ford"/>
+                <StringItem index="346" value="Rafael Devers"/>
+                <StringItem index="347" value="Josh Naylor"/>
+                <StringItem index="348" value="Abraham Toro"/>
+                <StringItem index="349" value="Aledmys Diaz"/>
+                <StringItem index="350" value="Luis Urias"/>
+                <StringItem index="351" value="Lewin Diaz"/>
+                <StringItem index="352" value="Luis Arraez"/>
+                <StringItem index="353" value="Jermaine Palacios"/>
+                <StringItem index="354" value="Eloy Jimenez"/>
+                <StringItem index="355" value="Gleyber Torres"/>
+                <StringItem index="356" value="Willi Castro"/>
+                <StringItem index="357" value="Yandy Diaz"/>
+                <StringItem index="358" value="Bryan DeLaCruz"/>
+                <StringItem index="359" value="Meibrys Viloria"/>
+                <StringItem index="360" value="Luis Rengifo"/>
+                <StringItem index="361" value="Rene Pinto"/>
+                <StringItem index="362" value="Carlos Perez"/>
+                <StringItem index="363" value="Riley Adams"/>
+                <StringItem index="364" value="Greg Allen"/>
+                <StringItem index="365" value="Sean Bouchard"/>
+                <StringItem index="366" value="Bobby Bradley"/>
+                <StringItem index="367" value="Matt Chapman"/>
+                <StringItem index="368" value="Michael Chavis"/>
+                <StringItem index="369" value="Joe Dunand"/>
+                <StringItem index="370" value="Drew Ellis"/>
+                <StringItem index="371" value="Stuart Fairchild"/>
+                <StringItem index="372" value="Stone Garrett"/>
+                <StringItem index="373" value="Dalton Guthrie"/>
+                <StringItem index="374" value="Monte Harrison"/>
+                <StringItem index="375" value="Adam Haseley"/>
+                <StringItem index="376" value="Derek Hill"/>
+                <StringItem index="377" value="Sam Hilliard"/>
+                <StringItem index="378" value="Rhys Hoskins"/>
+                <StringItem index="379" value="Alex Jackson"/>
+                <StringItem index="380" value="Connor Joe"/>
+                <StringItem index="381" value="Mark Kolozsvary"/>
+                <StringItem index="382" value="Jordan Luplow"/>
+                <StringItem index="383" value="J.J. Matijevic"/>
+                <StringItem index="384" value="Zach McKinstry"/>
+                <StringItem index="385" value="Cedric Mullins"/>
+                <StringItem index="386" value="Ryan O&apos;Hearn"/>
+                <StringItem index="387" value="Kevin Padlo"/>
+                <StringItem index="388" value="Emmanuel Rivera"/>
+                <StringItem index="389" value="Kyle Schwarber"/>
+                <StringItem index="390" value="Pavin Smith"/>
+                <StringItem index="391" value="Lane Thomas"/>
+                <StringItem index="392" value="Cole Tucker"/>
+                <StringItem index="393" value="Alex Verdugo"/>
+                <StringItem index="394" value="Connor Wong"/>
+                <StringItem index="395" value="Eddy Alvarez"/>
+                <StringItem index="396" value="Paul DeJong"/>
+                <StringItem index="397" value="Ramon Laureano"/>
+                <StringItem index="398" value="Michael Papierski"/>
+                <StringItem index="399" value="Gavin Sheets"/>
+                <StringItem index="400" value="Edward Olivares"/>
+                <StringItem index="401" value="Yoan Moncada"/>
+                <StringItem index="402" value="Shohei Ohtani"/>
+                <StringItem index="403" value="Yoshi Tsutsugo"/>
+                <StringItem index="404" value="Jonathan Arauz"/>
+                <StringItem index="405" value="Yonny Hernandez"/>
+                <StringItem index="406" value="Diego Castillo"/>
+                <StringItem index="407" value="Vidal Brujan"/>
+                <StringItem index="408" value="Dermis Garcia"/>
+                <StringItem index="409" value="Ronald Acuna"/>
+                <StringItem index="410" value="Keibert Ruiz"/>
+                <StringItem index="411" value="Elehuris Montero"/>
+                <StringItem index="412" value="Oscar Gonzalez"/>
+                <StringItem index="413" value="Juan Yepez"/>
+                <StringItem index="414" value="Jesus Sanchez"/>
+                <StringItem index="415" value="Hoy Park"/>
+                <StringItem index="416" value="William Contreras"/>
+                <StringItem index="417" value="Brian Serven"/>
+                <StringItem index="418" value="Daulton Varsho"/>
+                <StringItem index="419" value="Lars Nootbaar"/>
+                <StringItem index="420" value="Brendon Davis"/>
+                <StringItem index="421" value="Tyler Nevin"/>
+                <StringItem index="422" value="Nico Hoerner"/>
+                <StringItem index="423" value="Austin Riley"/>
+                <StringItem index="424" value="Nick Madrigal"/>
+                <StringItem index="425" value="Trevor Larnach"/>
+                <StringItem index="426" value="Ryan Mountcastle"/>
+                <StringItem index="427" value="Ryan McKenna"/>
+                <StringItem index="428" value="Ke&apos;Bryan Hayes"/>
+                <StringItem index="429" value="Kyle Tucker"/>
+                <StringItem index="430" value="Daz Cameron"/>
+                <StringItem index="431" value="Jonathan India"/>
+                <StringItem index="432" value="Joey Bart"/>
+                <StringItem index="433" value="Cal Raleigh"/>
+                <StringItem index="434" value="Nick Fortes"/>
+                <StringItem index="435" value="Trent Grisham"/>
+                <StringItem index="436" value="Matt Vierling"/>
+                <StringItem index="437" value="Alfonso Rivas"/>
+                <StringItem index="438" value="Romy Gonzalez"/>
+                <StringItem index="439" value="Tyler Stephenson"/>
+                <StringItem index="440" value="Luke Williams"/>
+                <StringItem index="441" value="Brendan Rodgers"/>
+                <StringItem index="442" value="Nick Plummer"/>
+                <StringItem index="443" value="Nathaniel Lowe"/>
+                <StringItem index="444" value="Ian Happ"/>
+                <StringItem index="445" value="Mark Mathias"/>
+                <StringItem index="446" value="Ty France"/>
+                <StringItem index="447" value="Brandon Lowe"/>
+                <StringItem index="448" value="Jaylin Davis"/>
+                <StringItem index="449" value="Harrison Bader"/>
+                <StringItem index="450" value="David Fletcher"/>
+                <StringItem index="451" value="Sam Haggerty"/>
+                <StringItem index="452" value="Austin Allen"/>
+                <StringItem index="453" value="Dylan Moore"/>
+                <StringItem index="454" value="Kyle Garlick"/>
+                <StringItem index="455" value="Estevan Florial"/>
+                <StringItem index="456" value="Aaron Whitefield"/>
+                <StringItem index="457" value="Alejo Lopez"/>
+                <StringItem index="458" value="Myles Straw"/>
+                <StringItem index="459" value="Kyle Isbel"/>
+                <StringItem index="460" value="P.J. Higgins"/>
+                <StringItem index="461" value="Alec Bohm"/>
+                <StringItem index="462" value="LaMonte Wade"/>
+                <StringItem index="463" value="Patrick Mazeika"/>
+                <StringItem index="464" value="Seby Zavala"/>
+                <StringItem index="465" value="Danny Mendick"/>
+                <StringItem index="466" value="Seth Brown"/>
+                <StringItem index="467" value="Jake McCarthy"/>
+                <StringItem index="468" value="Kody Clemens"/>
+                <StringItem index="469" value="Jared Walsh"/>
+                <StringItem index="470" value="Ford Proctor"/>
+                <StringItem index="471" value="Nick Maton"/>
+                <StringItem index="472" value="Jeremy Pena"/>
+                <StringItem index="473" value="Gilberto Celestino"/>
+                <StringItem index="474" value="Vladimir Guerrero"/>
+                <StringItem index="475" value="Cristian Pache"/>
+                <StringItem index="476" value="Lucius Fox"/>
+                <StringItem index="477" value="Juan Soto"/>
+                <StringItem index="478" value="Leody Taveras"/>
+                <StringItem index="479" value="Oswaldo Cabrera"/>
+                <StringItem index="480" value="Oneil Cruz"/>
+                <StringItem index="481" value="Sebastian Rivero"/>
+                <StringItem index="482" value="Jazz Chisholm"/>
+                <StringItem index="483" value="Esteury Ruiz"/>
+                <StringItem index="484" value="Andres Gimenez"/>
+                <StringItem index="485" value="Jonathan Aranda"/>
+                <StringItem index="486" value="Nolan Jones"/>
+                <StringItem index="487" value="Alex Kirilloff"/>
+                <StringItem index="488" value="Josh Lowe"/>
+                <StringItem index="489" value="Gavin Lux"/>
+                <StringItem index="490" value="Mickey Moniak"/>
+                <StringItem index="491" value="Jo Adell"/>
+                <StringItem index="492" value="Seth Beer"/>
+                <StringItem index="493" value="Will Benson"/>
+                <StringItem index="494" value="Bo Bichette"/>
+                <StringItem index="495" value="Dylan Carlson"/>
+                <StringItem index="496" value="Taylor Trammell"/>
+                <StringItem index="497" value="Jerar Encarnacion"/>
+                <StringItem index="498" value="Christopher Morel"/>
+                <StringItem index="499" value="Rodolfo Castro"/>
+                <StringItem index="500" value="Bobby Dalbec"/>
+                <StringItem index="501" value="Ryan Aguilar"/>
+                <StringItem index="502" value="Adolis Garcia"/>
+                <StringItem index="503" value="Lourdes Gurriel"/>
+                <StringItem index="504" value="Brent Rooker"/>
+                <StringItem index="505" value="Steele Walker"/>
+                <StringItem index="506" value="Randy Arozarena"/>
+                <StringItem index="507" value="Nick Pratto"/>
+                <StringItem index="508" value="Tres Barrera"/>
+                <StringItem index="509" value="JJ Bleday"/>
+                <StringItem index="510" value="Spencer Steer"/>
+                <StringItem index="511" value="Payton Henry"/>
+                <StringItem index="512" value="Akil Baddoo"/>
+                <StringItem index="513" value="Cal Mitchell"/>
+                <StringItem index="514" value="Andrew Knizner"/>
+                <StringItem index="515" value="Bryan Reynolds"/>
+                <StringItem index="516" value="Conner Capel"/>
+                <StringItem index="517" value="Mark Vientos"/>
+                <StringItem index="518" value="Royce Lewis"/>
+                <StringItem index="519" value="Adley Rutschman"/>
+                <StringItem index="520" value="Josh Rojas"/>
+                <StringItem index="521" value="Ryan Kreidler"/>
+                <StringItem index="522" value="Garrett Mitchell"/>
+                <StringItem index="523" value="MJ Melendez"/>
+                <StringItem index="524" value="Brandon Marsh"/>
+                <StringItem index="525" value="Jeter Downs"/>
+                <StringItem index="526" value="Kyle Stowers"/>
+                <StringItem index="527" value="Sam Huff"/>
+                <StringItem index="528" value="Shea Langeliers"/>
+                <StringItem index="529" value="Luis Campusano"/>
+                <StringItem index="530" value="Sean Murphy"/>
+                <StringItem index="531" value="Nick Senzel"/>
+                <StringItem index="532" value="Tommy Edman"/>
+                <StringItem index="533" value="Nick Solak"/>
+                <StringItem index="534" value="Will Smith"/>
+                <StringItem index="535" value="Jack Suwinski"/>
+                <StringItem index="536" value="Santiago Espinal"/>
+                <StringItem index="537" value="Jose Miranda"/>
+                <StringItem index="538" value="Bubba Thompson"/>
+                <StringItem index="539" value="Nolan Gorman"/>
+                <StringItem index="540" value="Bryce Johnson"/>
+                <StringItem index="541" value="Keston Hiura"/>
+                <StringItem index="542" value="Jake Burger"/>
+                <StringItem index="543" value="Nick Allen"/>
+                <StringItem index="544" value="Cooper Hummel"/>
+                <StringItem index="545" value="Josh Smith"/>
+                <StringItem index="546" value="Austin Hays"/>
+                <StringItem index="547" value="Darick Hall"/>
+                <StringItem index="548" value="Alex Call"/>
+                <StringItem index="549" value="Michael Toglia"/>
+                <StringItem index="550" value="Nicky Lopez"/>
+                <StringItem index="551" value="Luke Raley"/>
+                <StringItem index="552" value="Zack Short"/>
+                <StringItem index="553" value="Miles Mastrobuoni"/>
+                <StringItem index="554" value="Matt Wallner"/>
+                <StringItem index="555" value="Cal Stevenson"/>
+                <StringItem index="556" value="Jose Rojas"/>
+                <StringItem index="557" value="Yordan Alvarez"/>
+                <StringItem index="558" value="Isaac Paredes"/>
+                <StringItem index="559" value="Mike Brosseau"/>
+                <StringItem index="560" value="Taylor Walls"/>
+                <StringItem index="561" value="Luis Gonzalez"/>
+                <StringItem index="562" value="TJ Friedl"/>
+                <StringItem index="563" value="Livan Soto"/>
+                <StringItem index="564" value="Ivan Herrera"/>
+                <StringItem index="565" value="Buddy Kennedy"/>
+                <StringItem index="566" value="Triston Casas"/>
+                <StringItem index="567" value="Heliot Ramos"/>
+                <StringItem index="568" value="Drew Waters"/>
+                <StringItem index="569" value="Luis Garcia"/>
+                <StringItem index="570" value="Tyler Freeman"/>
+                <StringItem index="571" value="Michael Harris"/>
+                <StringItem index="572" value="Michael Siani"/>
+                <StringItem index="573" value="Jarred Kelenic"/>
+                <StringItem index="574" value="Gabriel Arias"/>
+                <StringItem index="575" value="Alejandro Kirk"/>
+                <StringItem index="576" value="Jordan Diaz"/>
+                <StringItem index="577" value="Gabriel Moreno"/>
+                <StringItem index="578" value="Maikel Garcia"/>
+                <StringItem index="579" value="Otto Lopez"/>
+                <StringItem index="580" value="Geraldo Perdomo"/>
+                <StringItem index="581" value="Oswald Peraza"/>
+                <StringItem index="582" value="Tucupita Marcano"/>
+                <StringItem index="583" value="Lenyn Sosa"/>
+                <StringItem index="584" value="Israel Pineda"/>
+                <StringItem index="585" value="Luis Robert"/>
+                <StringItem index="586" value="Ha-Seong Kim"/>
+                <StringItem index="587" value="Seiya Suzuki"/>
+                <StringItem index="588" value="Josh Jung"/>
+                <StringItem index="589" value="Kevin Smith"/>
+                <StringItem index="590" value="Nelson Velazquez"/>
+                <StringItem index="591" value="Ernie Clement"/>
+                <StringItem index="592" value="Alec Burleson"/>
+                <StringItem index="593" value="Jose Barrero"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="playerSearchBoxActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="teamNameComboBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="31">
+                <StringItem index="0" value="Choose a Team"/>
+                <StringItem index="1" value="Diamondbacks"/>
+                <StringItem index="2" value="Braves"/>
+                <StringItem index="3" value="Orioles"/>
+                <StringItem index="4" value="Red Sox"/>
+                <StringItem index="5" value="White Sox"/>
+                <StringItem index="6" value="Cubs"/>
+                <StringItem index="7" value="Reds"/>
+                <StringItem index="8" value="Guardians"/>
+                <StringItem index="9" value="Rockies"/>
+                <StringItem index="10" value="Tigers"/>
+                <StringItem index="11" value="Astros"/>
+                <StringItem index="12" value="Royals"/>
+                <StringItem index="13" value="Angels"/>
+                <StringItem index="14" value="Dodgers"/>
+                <StringItem index="15" value="Marlins"/>
+                <StringItem index="16" value="Brewers"/>
+                <StringItem index="17" value="Twins"/>
+                <StringItem index="18" value="Yankees"/>
+                <StringItem index="19" value="Mets"/>
+                <StringItem index="20" value="Athletics"/>
+                <StringItem index="21" value="Phillies"/>
+                <StringItem index="22" value="Pirates"/>
+                <StringItem index="23" value="Padres"/>
+                <StringItem index="24" value="Giants"/>
+                <StringItem index="25" value="Mariners"/>
+                <StringItem index="26" value="Cardinals"/>
+                <StringItem index="27" value="Rays"/>
+                <StringItem index="28" value="Rangers"/>
+                <StringItem index="29" value="Blue Jays"/>
+                <StringItem index="30" value="Nationals"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

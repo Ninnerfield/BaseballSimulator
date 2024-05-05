@@ -22,11 +22,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import static java.lang.Float.parseFloat;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,11 +54,13 @@ public class PlayerGetter {
         String inputLine;
         StringBuilder sb = new StringBuilder();          
         while ((inputLine = in.readLine()) != null) {
-            System.out.println(inputLine);
+//            System.out.println(inputLine);
             sb.append(inputLine);
        }
        in.close();
        jsonText = sb.toString();
+       String[] temp = jsonText.split("\"last_name\":\"");
+       
        return sb.toString();
     }
 
@@ -66,8 +71,16 @@ public class PlayerGetter {
         String fullName = (firstName[4] +"_" + playerLastName);
         String[] completedName = fullName.split(" ");
         System.out.println(completedName[1]);
-        return completedName[1];
+        return completedName[1];    
     } 
+    
+//    public static String fullNameAdder(String playerName){
+//        String[] nameSplit = playerName.split(" ", 0);
+//        String[] test1 = jsonText.split("\"last_name\":\""+nameSplit[1] + "\",\" first_name\":\" "+ nameSplit[0], 0);
+//        System.out.println("\"last_name\":\""+nameSplit[1] + "\",\" first_name\":\" "+ nameSplit[0]);
+//        String[] finalName = test1[1].split("\",\"player_id", 0);
+//        return "";  
+//    }
     
     public static HashMap xwobaGetter(){
         //Gets the names of the players to add to a dictionary
@@ -93,39 +106,94 @@ public class PlayerGetter {
              playerWobas.put(finalNames[i], parseFloat(finalWobaValues[i]));
         }
         for (HashMap.Entry<String, Float> entry : playerWobas.entrySet()) {
-//            System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
         return playerWobas;
     }
     
-    public static String mvpGetter(HashMap<String, Float> map){
-        String mvp = "";
+    //Goes through hashmap and gets the mvp based on which player has the highest woba value
+    public static String returnMVP(HashMap<String, Float> map){
+        String mvpLastName = "";
         float mvpWoba = 0;
         for (HashMap.Entry<String, Float> entry : map.entrySet()){
-            if (mvp == ""){
-                mvp = entry.getKey();
+            if (mvpLastName == ""){
+                mvpLastName = entry.getKey();
                 mvpWoba = entry.getValue();
             }
             else
                 if (entry.getValue() > mvpWoba){
                     mvpWoba = entry.getValue();
-                    mvp = entry.getKey();
+                    mvpLastName = entry.getKey();
                 }
         }
-
-        results = mvp +":" + results.valueOf(mvpWoba);
-        System.out.println(results);
-        return results;
+        String mvpFullName = PlayerGetter.nameGetter(mvpLastName);
+        results = mvpFullName +":" + results.valueOf(mvpWoba);
+        return mvpFullName;
     }
     
-    public static void yourTeamWobaGetter(String catcher, String firstBase, String secondBase, String thirdBase, String shortStop, String leftField, String centerField, String rightField, String dh){
-            System.out.println("Testing for Woba " + playerWobas.get(firstBase));
+        //Randomly increases or decreases the offensive production (xwoba) for a player randomly between .05 and -.05
+    public static HashMap playerSeasonSim(HashMap<String, Float> map){
+        
+        Random rand = new Random(); 
+        for (HashMap.Entry<String, Float> entry : map.entrySet()){
+            float changeValue = rand.nextFloat() * 0.1f;   
+            if (changeValue > .05f){
+                changeValue = changeValue - .05f;
+                float newValueWoba = entry.getValue() - changeValue;
+                map.replace(entry.getKey(), newValueWoba);
+            }else{
+                float newValueWoba = entry.getValue() + changeValue;
+                map.replace(entry.getKey(), newValueWoba);
+            }
+        }
+        return map;
+    }
+    
+    public static String playerStatsGetter(String playerName){
+        Random rand = new Random(); 
+        DecimalFormat df = new DecimalFormat("#.###");
+        df.setRoundingMode(RoundingMode.CEILING);
+        //Getting player batting average from the API
+        String[] nameSplit = playerName.split("_", 0);
+        String[] lastNameSplit = jsonText.split(nameSplit[1]);
+        String[] battingAvgSplit = lastNameSplit[1].split("\"batting_avg\":");
+        String[] battingAvgFinal = battingAvgSplit[1].split(",");
+        
+        // Randomizes player batting average for a simulated season based on the players previous season batting average
+        float battingAverage = Float.parseFloat(battingAvgFinal[0]);
+        float battingAvgChangeValue = rand.nextFloat() * 0.1f;  
+        if (battingAvgChangeValue > .05f){
+            battingAvgChangeValue = battingAvgChangeValue - .05f;
+            battingAverage = battingAverage - battingAvgChangeValue;
+        }else{
+            battingAverage = battingAverage + battingAvgChangeValue;
+        } 
+        //Getting player Home Runs from the API
+        String[] hrSplit = lastNameSplit[1].split("\"b_home_run\":");
+        String[] hrFinal =hrSplit[1].split(",");
+        //Randomizes player home run count for a simulated season based on the year priors home run count
+        int homeRuns = Integer.parseInt(hrFinal[0]);
+        int hrChangeValue = rand.nextInt(15);
+        if (hrChangeValue > 10){
+            hrChangeValue = hrChangeValue - 10;
+            homeRuns = homeRuns - hrChangeValue;
+        }else{
+            homeRuns = homeRuns + hrChangeValue;
+        } 
+        if(homeRuns < 0){
+            homeRuns = 0;
+        }
+        
+        String finalResults = "BA: " + df.format(battingAverage) + " Total HRs: " + homeRuns;
+        return finalResults;
+    }
+    
+    public static void yourTeamWobaGetter(String catcher, String firstBase, String secondBase, String thirdBase, String shortStop, String leftField, String centerField, String rightField, String dh, String team){
             // Put starting lineup in hashmap for when you give their stats
             float yourTeamWoba = (playerWobas.get(catcher) + playerWobas.get(firstBase) + playerWobas.get(secondBase) + playerWobas.get(thirdBase) + playerWobas.get(shortStop) + playerWobas.get(leftField) + playerWobas.get(centerField) + playerWobas.get(rightField) + playerWobas.get(dh)) / 9;
             System.out.println("Your Team Woba = " + yourTeamWoba);
             double yourTeamWobaDouble = yourTeamWoba;
             System.out.println(yourTeamWobaDouble);
-            Simulate.addYourTeam("TeamYES", yourTeamWobaDouble);
+            Simulate.addYourTeam(team, yourTeamWobaDouble);
     }
 }
 

@@ -4,14 +4,8 @@
  */
 package com.mycompany.baseballsimulator;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.Image;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -33,7 +29,9 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     JTextField[] positions = new JTextField[9];
     JButton[] dropButtons = new JButton[9];
     JButton[] infoButtons = new JButton[9];
-//    private Gson gson;
+    boolean drop = false;
+    boolean add = false;
+    boolean sameName = false;
     private String jsonReader;
     private HashMap<String, Float> playerStats = new HashMap<String, Float>();
 
@@ -42,7 +40,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     
     public TeamPicker() {
        initComponents();
-//       trophyImage.setIcon(imageTrophy);
+       AutoCompleteDecorator.decorate(playerSearchBox);
        positions[0] = catcherText;
        positions[1] = firstBaseText;
        positions[2] = secondBaseText;
@@ -89,23 +87,32 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         }
     }
     
+    
     private void dropPlayer(int i){
         positions[i].setText("Empty");
+        drop = false;
         setDropButtons();
+        
     }
     
-    private void positionHandler(String name){   
-        for(int i = 0; i<9; i++){
-//            System.out.println(positions[0].getText());
-            if (positions[i].getText().equals("Empty")){
-                positions[i].setText(name);
-//                System.out.println(positions[0].getText());
-                return;
-            }else{
-                System.out.println("okay");
-                
+    private void addPlayer(int i){
+        //Checks if the name of the player the user is trying to input is already playing another position
+        sameName = false;
+        for (int j=0; j<9; j++){
+            String[] positionNames = playerSearchBox.getSelectedItem().toString().split(" ");
+            String positionPlayerName = positionNames[0] + "_" + positionNames[1];
+            if (positions[j].getText().equals(positionPlayerName)){
+                sameName = true;
             }
         }
+        //If the player is not already in the team add the player to the desired position
+        if (!sameName){
+            String[] formatName = playerSearchBox.getSelectedItem().toString().split(" ");
+            String s = formatName[0] + "_" + formatName[1];
+            positions[i].setText(s);
+        }
+        add = false;
+        setDropButtons();
     }
 
     /**
@@ -121,6 +128,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        playerSearch = new javax.swing.JTextPane();
         addBtn = new javax.swing.JButton();
         dropBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -158,8 +167,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         jLabel10 = new javax.swing.JLabel();
         dhDropBtn = new javax.swing.JButton();
         dhInfo = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        playerSearch = new javax.swing.JTextPane();
         jPanel4 = new javax.swing.JPanel();
         dhText = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -167,6 +174,8 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         simulateButton = new javax.swing.JButton();
+        playerSearchBox = new javax.swing.JComboBox<>();
+        teamNameComboBox = new javax.swing.JComboBox<>();
 
         jButton4.setText("jButton4");
 
@@ -199,6 +208,9 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 29, Short.MAX_VALUE)
         );
+
+        playerSearch.setText("Player Last Name");
+        jScrollPane1.setViewportView(playerSearch);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 153, 0));
@@ -404,11 +416,6 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         dhInfo.setText("Info");
         getContentPane().add(dhInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 322, 54, -1));
 
-        playerSearch.setText("Player Last Name");
-        jScrollPane1.setViewportView(playerSearch);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(269, 16, 120, -1));
-
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         dhText.setBackground(new java.awt.Color(255, 255, 255));
@@ -488,21 +495,42 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             }
         });
 
+        playerSearchBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Player", "Miguel Cabrera", "Yadier Molina", "Robinson Cano", "Kurt Suzuki", "Nelson Cruz", "David Peralta", "Manny Pina", "Alcides Escobar", "Evan Longoria", "Charlie Blackmon", "Martin Maldonado", "Robinson Chirinos", "Lorenzo Cain", "Donovan Solano", "Andrew McCutchen", "Justin Upton", "Justin Turner", "Joey Votto", "Elvis Andrus", "Carlos Santana", "Brandon Belt", "Jed Lowrie", "Michael Brantley", "Jason Castro", "Yuli Gurriel", "Miguel Rojas", "Eduardo Escobar", "Ehire Adrianza", "Juan Lagares", "Abraham Almonte", "Tommy Pham", "J.D. Martinez", "Paul Goldschmidt", "Marwin Gonzalez", "Sandy Leon", "Jose Altuve", "Cesar Hernandez", "Jean Segura", "Starling Marte", "Charlie Culberson", "Travis d'Arnaud", "Josh Donaldson", "Freddie Freeman", "Yasmani Grandal", "Jason Heyward", "DJ LeMahieu", "Mike Moustakas", "Anthony Rizzo", "Austin Romine", "Steven Souza", "Giancarlo Stanton", "Stephen Vogt", "Salvador Perez", "Wilmer Flores", "Avisail Garcia", "Christian Bethancourt", "Marcell Ozuna", "Jonathan Villar", "Rafael Ortega", "Jesus Aguilar", "Tim Beckham", "Jon Berti", "Brandon Crawford", "C.J. Cron", "Alex Dickerson", "Yan Gomes", "Robbie Grossman", "Josh Harrison", "Aaron Hicks", "Kyle Higashioka", "Eric Hosmer", "James McCann", "Brad Miller", "Austin Nola", "Anthony Rendon", "Marcus Semien", "Travis Shaw", "George Springer", "Dee Strange-Gordon", "Christian Vazquez", "Kolten Wong", "Didi Gregorius", "Leury Garcia", "Ildemaro Vargas", "Randal Grichuk", "Jake Marisnick", "Max Stassi", "Mike Trout", "Odubel Herrera", "Albert Almora", "Christian Lopes", "Bryce Harper", "Roberto Perez", "Jose Abreu", "Elias Diaz", "Omar Narvaez", "Willians Astudillo", "Dixon Machado", "Eugenio Suarez", "Erik Gonzalez", "Gio Urshela", "Carlos Sanchez", "Jonathan Schoop", "Nolan Arenado", "Tucker Barnhart", "Matt Davidson", "Kyle Farmer", "Billy Hamilton", "Mitch Haniger", "Enrique Hernandez", "Jake Lamb", "Luke Maile", "Max Muncy", "Wil Myers", "Tyler Naquin", "Chris Owings", "Stephen Piscotty", "AJ Pollock", "Michael Taylor", "Trayce Thompson", "Luke Voit", "Christian Walker", "Mike Zunino", "Matt Carpenter", "Corey Dickerson", "Dustin Garneau", "Darin Ruf", "Mike Yastrzemski", "Willson Contreras", "Jose Iglesias", "Wynton Bernard", "Kris Bryant", "Mark Canha", "Curt Casali", "Nick Castellanos", "Brandon Drury", "Ben Gamel", "Niko Goodrum", "Aaron Judge", "Manny Machado", "Colin Moran", "Mark Payton", "Joc Pederson", "J.T. Realmuto", "Hunter Renfroe", "Eddie Rosario", "Andrelton Simmons", "Christian Yelich", "Whit Merrifield", "Xander Bogaerts", "Hanser Alberto", "Jorge Polanco", "Miguel Sano", "Kole Calhoun", "Adam Duvall", "Phil Gosselin", "Kevin Kiermaier", "Andrew Knapp", "Chad Wallach", "Jorge Alfaro", "Jurickson Profar", "Javier Baez", "Jake Cave", "Cam Gallagher", "Austin Hedges", "Francisco Lindor", "Rougned Odor", "Austin Slater", "Trevor Story", "Garrett Stubbs", "Daniel Vogelbach", "Gary Sanchez", "Max Kepler", "Roman Quinn", "Maikel Franco", "Ji-Man Choi", "Jackie Bradley", "Tommy LaStella", "Pedro Severino", "Jeimer Candelario", "Yonathan Daza", "Ramon Urias", "Nick Ahmed", "Brian Anderson", "Austin Barnes", "Josh Bell", "Mookie Betts", "Victor Caratini", "J.D. Davis", "Aramis Garcia", "Vimael Machin", "Michael Perez", "Dillon Thomas", "Bradley Zimmer", "Harold Castro", "Esteban Quiroz", "Orlando Arcia", "Raimel Tapia", "Aristides Aquino", "Teoscar Hernandez", "Yermin Mercedes", "Ketel Marte", "Eric Haase", "Jake Hager", "Brandon Nimmo", "Jace Peterson", "Trea Turner", "Jason Krizan", "Matt Beaty", "Kevin Pillar", "Jacob Stallings", "Jose Ramirez", "Alex Bregman", "Joey Gallo", "Carson Kelly", "Chris Okey", "Corey Seager", "Jesse Winker", "Jose Godoy", "Nomar Mazara", "Tom Murphy", "Travis Jankowski", "Jack Mayfield", "Kevin Plawecki", "Rob Refsnyder", "Matt Reynolds", "Joey Meneses", "Elier Hernandez", "Adalberto Mondesi", "Miguel Andujar", "Jason Vosler", "Franchy Cordero", "Franmil Reyes", "Luis Torrens", "Richie Martin", "Max Schrock", "Dansby Swanson", "Kevin Newman", "Chris Taylor", "Carlos Correa", "Brett Phillips", "Tyrone Taylor", "Byron Buxton", "Lewis Brinson", "Skye Bolt", "Steven Duggar", "Edwin Rios", "Taylor Ward", "Tomas Nido", "Anthony Bemboom", "Patrick Wisdom", "Joey Wendle", "Matt Olson", "Matt Duffy", "Yairo Munoz", "Donovan Walton", "Manuel Margot", "Pablo Reyes", "Johan Camargo", "Victor Reyes", "Jorge Mateo", "Tyler Heineman", "Andrew Velazquez", "David Bote", "Harold Ramirez", "Anthony Santander", "Pete Alonso", "Christian Arroyo", "Cavan Biggio", "Adam Frazier", "Jose Trevino", "Nick Gordon", "Reese McGuire", "Dom Nunez", "Jorge Soler", "Edmundo Sosa", "Guillermo Heredia", "Yadiel Hernandez", "Andy Ibanez", "Jake Cronenworth", "Clint Frazier", "Austin Meadows", "Oscar Mercado", "Chad Pinder", "Jose Azocar", "Tim Anderson", "Cody Bellinger", "Willie Calhoun", "Zack Collins", "J.P. Crawford", "Jonathan Davis", "Jason Delay", "Ben DeLuzio", "Travis Demeritte", "Brandon Dixon", "Hunter Dozier", "Adam Engel", "Jake Fraley", "Mitch Garver", "Luis Guillorme", "Garrett Hampson", "Jonah Heim", "Michael Hermosillo", "Gosuke Katoh", "Charles Leblanc", "Kyle Lewis", "Tim Locastro", "Trey Mancini", "Billy McKinney", "Ryan McMahon", "Sheldon Neuse", "Tyler O'Neill", "Josh Palacios", "Chuckie Robinson", "Dominic Smith", "Rowdy Tellez", "Matt Thaiss", "Cody Thomas", "Josh VanMeter", "Tyler Wade", "Eli White", "Francisco Mejia", "Jose Siri", "Magneuris Sierra", "Luis Barrera", "Amed Rosario", "Willy Adames", "Kelvin Gutierrez", "Sergio Alcantara", "Thairo Estrada", "Austin Wynns", "Andrew Benintendi", "Garrett Cooper", "Mauricio Dubon", "Caleb Hamilton", "Danny Jansen", "Tony Kemp", "Isiah Kiner-Falefa", "Jeff McNeil", "Frank Schwindel", "Yu Chang", "Ozzie Albies", "Victor Robles", "Jose Herrera", "Mike Ford", "Rafael Devers", "Josh Naylor", "Abraham Toro", "Aledmys Diaz", "Luis Urias", "Lewin Diaz", "Luis Arraez", "Jermaine Palacios", "Eloy Jimenez", "Gleyber Torres", "Willi Castro", "Yandy Diaz", "Bryan DeLaCruz", "Meibrys Viloria", "Luis Rengifo", "Rene Pinto", "Carlos Perez", "Riley Adams", "Greg Allen", "Sean Bouchard", "Bobby Bradley", "Matt Chapman", "Michael Chavis", "Joe Dunand", "Drew Ellis", "Stuart Fairchild", "Stone Garrett", "Dalton Guthrie", "Monte Harrison", "Adam Haseley", "Derek Hill", "Sam Hilliard", "Rhys Hoskins", "Alex Jackson", "Connor Joe", "Mark Kolozsvary", "Jordan Luplow", "J.J. Matijevic", "Zach McKinstry", "Cedric Mullins", "Ryan O'Hearn", "Kevin Padlo", "Emmanuel Rivera", "Kyle Schwarber", "Pavin Smith", "Lane Thomas", "Cole Tucker", "Alex Verdugo", "Connor Wong", "Eddy Alvarez", "Paul DeJong", "Ramon Laureano", "Michael Papierski", "Gavin Sheets", "Edward Olivares", "Yoan Moncada", "Shohei Ohtani", "Yoshi Tsutsugo", "Jonathan Arauz", "Yonny Hernandez", "Diego Castillo", "Vidal Brujan", "Dermis Garcia", "Ronald Acuna", "Keibert Ruiz", "Elehuris Montero", "Oscar Gonzalez", "Juan Yepez", "Jesus Sanchez", "Hoy Park", "William Contreras", "Brian Serven", "Daulton Varsho", "Lars Nootbaar", "Brendon Davis", "Tyler Nevin", "Nico Hoerner", "Austin Riley", "Nick Madrigal", "Trevor Larnach", "Ryan Mountcastle", "Ryan McKenna", "Ke'Bryan Hayes", "Kyle Tucker", "Daz Cameron", "Jonathan India", "Joey Bart", "Cal Raleigh", "Nick Fortes", "Trent Grisham", "Matt Vierling", "Alfonso Rivas", "Romy Gonzalez", "Tyler Stephenson", "Luke Williams", "Brendan Rodgers", "Nick Plummer", "Nathaniel Lowe", "Ian Happ", "Mark Mathias", "Ty France", "Brandon Lowe", "Jaylin Davis", "Harrison Bader", "David Fletcher", "Sam Haggerty", "Austin Allen", "Dylan Moore", "Kyle Garlick", "Estevan Florial", "Aaron Whitefield", "Alejo Lopez", "Myles Straw", "Kyle Isbel", "P.J. Higgins", "Alec Bohm", "LaMonte Wade", "Patrick Mazeika", "Seby Zavala", "Danny Mendick", "Seth Brown", "Jake McCarthy", "Kody Clemens", "Jared Walsh", "Ford Proctor", "Nick Maton", "Jeremy Pena", "Gilberto Celestino", "Vladimir Guerrero", "Cristian Pache", "Lucius Fox", "Juan Soto", "Leody Taveras", "Oswaldo Cabrera", "Oneil Cruz", "Sebastian Rivero", "Jazz Chisholm", "Esteury Ruiz", "Andres Gimenez", "Jonathan Aranda", "Nolan Jones", "Alex Kirilloff", "Josh Lowe", "Gavin Lux", "Mickey Moniak", "Jo Adell", "Seth Beer", "Will Benson", "Bo Bichette", "Dylan Carlson", "Taylor Trammell", "Jerar Encarnacion", "Christopher Morel", "Rodolfo Castro", "Bobby Dalbec", "Ryan Aguilar", "Adolis Garcia", "Lourdes Gurriel", "Brent Rooker", "Steele Walker", "Randy Arozarena", "Nick Pratto", "Tres Barrera", "JJ Bleday", "Spencer Steer", "Payton Henry", "Akil Baddoo", "Cal Mitchell", "Andrew Knizner", "Bryan Reynolds", "Conner Capel", "Mark Vientos", "Royce Lewis", "Adley Rutschman", "Josh Rojas", "Ryan Kreidler", "Garrett Mitchell", "MJ Melendez", "Brandon Marsh", "Jeter Downs", "Kyle Stowers", "Sam Huff", "Shea Langeliers", "Luis Campusano", "Sean Murphy", "Nick Senzel", "Tommy Edman", "Nick Solak", "Will Smith", "Jack Suwinski", "Santiago Espinal", "Jose Miranda", "Bubba Thompson", "Nolan Gorman", "Bryce Johnson", "Keston Hiura", "Jake Burger", "Nick Allen", "Cooper Hummel", "Josh Smith", "Austin Hays", "Darick Hall", "Alex Call", "Michael Toglia", "Nicky Lopez", "Luke Raley", "Zack Short", "Miles Mastrobuoni", "Matt Wallner", "Cal Stevenson", "Jose Rojas", "Yordan Alvarez", "Isaac Paredes", "Mike Brosseau", "Taylor Walls", "Luis Gonzalez", "TJ Friedl", "Livan Soto", "Ivan Herrera", "Buddy Kennedy", "Triston Casas", "Heliot Ramos", "Drew Waters", "Luis Garcia", "Tyler Freeman", "Michael Harris", "Michael Siani", "Jarred Kelenic", "Gabriel Arias", "Alejandro Kirk", "Jordan Diaz", "Gabriel Moreno", "Maikel Garcia", "Otto Lopez", "Geraldo Perdomo", "Oswald Peraza", "Tucupita Marcano", "Lenyn Sosa", "Israel Pineda", "Luis Robert", "Ha-Seong Kim", "Seiya Suzuki", "Josh Jung", "Kevin Smith", "Nelson Velazquez", "Ernie Clement", "Alec Burleson", "Jose Barrero" }));
+        playerSearchBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playerSearchBoxActionPerformed(evt);
+            }
+        });
+
+        teamNameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose a Team", "Diamondbacks", "Braves", "Orioles", "Red Sox", "White Sox", "Cubs", "Reds", "Guardians", "Rockies", "Tigers", "Astros", "Royals", "Angels", "Dodgers", "Marlins", "Brewers", "Twins", "Yankees", "Mets", "Athletics", "Phillies", "Pirates", "Padres", "Giants", "Mariners", "Cardinals", "Rays", "Rangers", "Blue Jays", "Nationals" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-                .addComponent(simulateButton)
-                .addGap(42, 42, 42))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+                        .addComponent(simulateButton)
+                        .addGap(42, 42, 42))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(playerSearchBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(teamNameComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addComponent(playerSearchBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111)
+                .addComponent(teamNameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(simulateButton)
                 .addGap(27, 27, 27))
         );
@@ -514,28 +542,42 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        String var = playerSearch.getText();
-        String fullName = PlayerGetter.nameGetter(var);
-        positionHandler(fullName);
+        for (int i=0; i<9; i++){
+            dropButtons[i].setEnabled(true);
+            dropButtons[i].setBackground(Color.green);
+            add = true;
+        }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void simulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateButtonActionPerformed
+        
         Simulate.getInstance();
-        playerStats = PlayerGetter.xwobaGetter();
-        playerStats = Simulate.playerSeasonSim(playerStats);
-        String[] catcherName = catcherText.getText().split("_");
-        String[] firstBaseName = catcherText.getText().split("_");
-        String[] secondBaseName = catcherText.getText().split("_");
-        String[] thirdBaseName = catcherText.getText().split("_");
-        String[] shortStopName = catcherText.getText().split("_");
-        String[] leftFieldName = catcherText.getText().split("_");
-        String[] centerFieldName = catcherText.getText().split("_");
-        String[] rightFieldName = catcherText.getText().split("_");
-        String[] dhName = catcherText.getText().split("_");
-        PlayerGetter.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1]);
-        Simulate pi = new Simulate();
-        Simulate.returnMVP(playerStats);
-        pi.setVisible(true);
+        boolean positionsFilled = ExceptionHandler.lineupFilled(positions);
+        if (!positionsFilled){
+            JOptionPane.showMessageDialog(null, "Not Enough Players In Your Team", "ALERT", JOptionPane.ERROR_MESSAGE);
+        }else if(teamNameComboBox.getSelectedItem().equals("Choose a Team")){
+            JOptionPane.showMessageDialog(null, "No Team Selected", "ALERT", JOptionPane.ERROR_MESSAGE);
+        }else{
+            playerStats = PlayerGetter.xwobaGetter();
+            playerStats = PlayerGetter.playerSeasonSim(playerStats);
+            String[] catcherName = catcherText.getText().split("_");
+            String[] firstBaseName = firstBaseText.getText().split("_");
+            String[] secondBaseName = secondBaseText.getText().split("_");
+            String[] thirdBaseName = thirdBaseText.getText().split("_");
+            String[] shortStopName = shortStopText.getText().split("_");
+            String[] leftFieldName = leftFieldText.getText().split("_");
+            String[] centerFieldName = centerFieldText.getText().split("_");
+            String[] rightFieldName = rightFieldText.getText().split("_");
+            String[] dhName = dhText.getText().split("_");
+            PlayerGetter.yourTeamWobaGetter(catcherName[1], firstBaseName[1], secondBaseName[1], thirdBaseName[1], shortStopName[1], leftFieldName[1], centerFieldName[1], rightFieldName[1], dhName[1], teamNameComboBox.getSelectedItem().toString());
+            Simulate pi = new Simulate();
+            String mvpFullName = PlayerGetter.returnMVP(playerStats);
+            Simulate.setMVP(mvpFullName);
+            String mvpStats = PlayerGetter.playerStatsGetter(mvpFullName);
+            Simulate.setMVPStats(mvpStats);
+            Simulate.lineupPlayerTableInsert(catcherText.getText(), PlayerGetter.playerStatsGetter(catcherText.getText()), firstBaseText.getText(), PlayerGetter.playerStatsGetter(firstBaseText.getText()), secondBaseText.getText(), PlayerGetter.playerStatsGetter(secondBaseText.getText()), thirdBaseText.getText(), PlayerGetter.playerStatsGetter(thirdBaseText.getText()), shortStopText.getText(), PlayerGetter.playerStatsGetter(shortStopText.getText()), leftFieldText.getText(), PlayerGetter.playerStatsGetter(leftFieldText.getText()), centerFieldText.getText(), PlayerGetter.playerStatsGetter(centerFieldText.getText()), rightFieldText.getText(), PlayerGetter.playerStatsGetter(rightFieldText.getText()), dhText.getText(), PlayerGetter.playerStatsGetter(dhText.getText()));
+            pi.setVisible(true);
+        }
     }//GEN-LAST:event_simulateButtonActionPerformed
 
     private void catcherTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catcherTextActionPerformed
@@ -574,6 +616,10 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         // TODO add your handling code here:
         for (int i=0; i<9; i++){
             dropButtons[i].setEnabled(true);
+            dropButtons[i].setBackground(Color.red);
+            drop = true;
+            String[] test = catcherText.getText().split("_");
+            System.out.println(test[1]);
         }
     }//GEN-LAST:event_dropBtnActionPerformed
 
@@ -588,6 +634,10 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private void dhDropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dhDropBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dhDropBtnActionPerformed
+
+    private void playerSearchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerSearchBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerSearchBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -662,6 +712,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton leftFieldInfo;
     private javax.swing.JTextField leftFieldText;
     private javax.swing.JTextPane playerSearch;
+    private javax.swing.JComboBox<String> playerSearchBox;
     private javax.swing.JButton rightFieldDropBtn;
     private javax.swing.JButton rightFieldInfo;
     private javax.swing.JTextField rightFieldText;
@@ -672,6 +723,7 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton shortStopInfo;
     private javax.swing.JTextField shortStopText;
     private javax.swing.JButton simulateButton;
+    private javax.swing.JComboBox<String> teamNameComboBox;
     private javax.swing.JButton thirdBaseDropBtn;
     private javax.swing.JButton thirdBaseInfo;
     private javax.swing.JTextField thirdBaseText;
@@ -682,9 +734,16 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i=0; i<9; i++){
+                    if (drop == true){
                         if (e.getSource() == dropButtons[i]){
                             dropPlayer(i);     
                         }
+                    }
+                    if (add == true){ 
+                        if (e.getSource() == dropButtons[i]){
+                            addPlayer(i);     
+                        }
+                    }
                 }
             } 
         };
@@ -732,9 +791,3 @@ public class TeamPicker extends javax.swing.JFrame implements ActionListener {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
-
-//Choose Team
-//Title
-//Favorites Tab
-//Quiz Mode?
-//Player SlashLine

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.stream.Collectors;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Jinnerfield
@@ -137,50 +138,63 @@ public class Simulate extends javax.swing.JFrame {
         return instance;
     }
     
-    //Randomly increases or decreases the offensive production (xwoba) for a player randomly between .05 and -.05
-    public static HashMap playerSeasonSim(HashMap<String, Float> map){
-        Random rand = new Random(); 
-        for (HashMap.Entry<String, Float> entry : map.entrySet()){
-            float changeValue = rand.nextFloat() * 0.1f;   
-            if (changeValue > .05f){
-//                System.out.println("number > .50");
-                changeValue = changeValue - .05f;
-                float newValueWoba = entry.getValue() - changeValue;
-                map.replace(entry.getKey(), newValueWoba);
-            }else{
-                float newValueWoba = entry.getValue() + changeValue;
-                map.replace(entry.getKey(), newValueWoba);
-            }
-        }
-        return map;
+
+    
+    public static void setMVP(String mvpFullName){
+        mvpText.setText(mvpFullName);
     }
     
-    public static String returnMVP(HashMap<String, Float> map){
-        String mvpLastName = "";
-        float mvpWoba = 0;
-        for (HashMap.Entry<String, Float> entry : map.entrySet()){
-            if (mvpLastName == ""){
-                mvpLastName = entry.getKey();
-                mvpWoba = entry.getValue();
-            }
-            else
-                if (entry.getValue() > mvpWoba){
-                    mvpWoba = entry.getValue();
-                    mvpLastName = entry.getKey();
-                }
-        }
-        System.out.println(mvpLastName);
-        String mvpFullName = PlayerGetter.nameGetter(mvpLastName);
-        mvpText.setText(mvpFullName);
-        results = mvpFullName +":" + results.valueOf(mvpWoba);
-        return mvpFullName;
+    public static void setMVPStats (String mvpStats){
+        mvpStatsText.setText(mvpStats);
     }
     
     public static void addYourTeam(String teamName, Double teamWoba){
-        teamWobas.put(teamName, teamWoba);
-        teamRecords.put(teamName, new Integer[]{0,0});
+        for (HashMap.Entry<String, Double> teamsWoba : teamWobas.entrySet()) {
+            if (teamName.equals(teamsWoba.getKey())){
+                teamWobas.replace(teamName, teamWoba);
+            }
+        }
     }
     
+    public static void lineupPlayerTableInsert(String catcher, String catcherStats, String firstBase, String firstBaseStats, String secondBase, String secondBaseStats, String thirdBase, String thirdBaseStats, String shortStop, String shortStopStats, String leftField, String leftFieldStats, String centerField, String centerFieldStats, String rightField, String rightFieldStats, String dh, String dhStats){
+        String[] playerNames = new String[9];
+        playerNames[0] = catcher;
+        playerNames[1] = firstBase;
+        playerNames[2] = secondBase;
+        playerNames[3] = thirdBase;
+        playerNames[4] = shortStop;
+        playerNames[5] = leftField;
+        playerNames[6] = centerField;
+        playerNames[7] = rightField;
+        playerNames[8] = dh;
+        
+        String[] playerStats = new String[9];
+        playerStats[0] = catcherStats;
+        playerStats[1] = firstBaseStats;
+        playerStats[2] = secondBaseStats;
+        playerStats[3] = thirdBaseStats;
+        playerStats[4] = shortStopStats;
+        playerStats[5] = leftFieldStats;
+        playerStats[6] = centerFieldStats;
+        playerStats[7] = rightFieldStats;
+        playerStats[8] = dhStats;
+        for(int i = 0; i<9; i++){
+            if (playerNames[i].equals(mvpText.getText())){
+                playerStats[i] = mvpStatsText.getText();
+                
+            }
+        }
+        DefaultTableModel model = (DefaultTableModel)lineupTable.getModel();
+        model.addRow(new Object[]{catcher, playerStats[0]});
+        model.addRow(new Object[]{firstBase, playerStats[1]});
+        model.addRow(new Object[]{secondBase, playerStats[2]});
+        model.addRow(new Object[]{thirdBase, playerStats[3]});
+        model.addRow(new Object[]{shortStop, playerStats[4]});
+        model.addRow(new Object[]{leftField, playerStats[5]});
+        model.addRow(new Object[]{centerField, playerStats[6]});
+        model.addRow(new Object[]{rightField, playerStats[7]});
+        model.addRow(new Object[]{dh, playerStats[8]});
+    }
     
     
     public static void seasonSimulation(){
@@ -220,44 +234,95 @@ public class Simulate extends javax.swing.JFrame {
                 for(HashMap.Entry<String, Double> awayTeams : teamWobas.entrySet()){
                     if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 163 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 163){                 
                         if (homeTeams.getValue() > awayTeams.getValue()){ //If the home team has a higher woba it gives them the advantage
-                            float changeValue = rand.nextFloat(); 
-                            if (changeValue <= .6f){ //If the random number is below .6 then the home team wins giving them a 60% chance of victory
-                                winner = homeTeams.getKey();
-                                loser = awayTeams.getKey();
-                                teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-
-                            }else{ //40% chance of victory for the away team
-                                winner = awayTeams.getKey();
-                                loser = homeTeams.getKey();
-                                teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                            if (homeTeams.getValue() > awayTeams.getValue() + .2f){
+                                float changeValue = rand.nextFloat(); 
+                                if (changeValue <= .73f){ //If the random number is below .73 then the home team wins giving them a 73% chance of victory
+                                   winner = homeTeams.getKey();
+                                   loser = awayTeams.getKey();
+                                   if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                       teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                       teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                   }
+                                   }else{ //27% chance of victory for the away team
+                                       winner = awayTeams.getKey();
+                                       loser = homeTeams.getKey();
+                                       if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                            teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                            teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});      
+                                       }
+                                   }
+                                }else{
+                                    float changeValue = rand.nextFloat(); 
+                                    if (changeValue <= .6f){ //If the random number is below .6 then the home team wins giving them a 60% chance of victory
+                                        winner = homeTeams.getKey();
+                                        loser = awayTeams.getKey();
+                                        if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                    }
+                                    }else{ //40% chance of victory for the away team
+                                        winner = awayTeams.getKey();
+                                        loser = homeTeams.getKey();
+                                        if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});      
+                                    }
+                                }
                             }
                         }else if (homeTeams.getValue() < awayTeams.getValue()){//If the away team has a higher woba it gives them the advantage
-                            float changeValue = rand.nextFloat(); 
-                            if (changeValue >= .6f){ //If the random number is above .6 then the home team wins giving them a 60% chance of victory
-                                winner = homeTeams.getKey();
-                                loser = awayTeams.getKey();
-                                teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
-                            }else{ //40% chance of victory for the away team
-                                winner = awayTeams.getKey();
-                                loser = homeTeams.getKey();
-                                teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                            if (homeTeams.getValue() < awayTeams.getValue() + .2f){
+                                float changeValue = rand.nextFloat(); 
+                                if (changeValue >= .73f){ //If the random number is above .6 then the home team wins giving them a 60% chance of victory
+                                    winner = homeTeams.getKey();
+                                    loser = awayTeams.getKey();
+                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+
+                                    }
+                                }else{ //40% chance of victory for the away team
+                                    winner = awayTeams.getKey();
+                                    loser = homeTeams.getKey();
+                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                    }
+                                }
+                            }else{
+                                float changeValue = rand.nextFloat(); 
+                                if (changeValue >= .6f){ //If the random number is above .6 then the home team wins giving them a 60% chance of victory
+                                    winner = homeTeams.getKey();
+                                    loser = awayTeams.getKey();
+                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                    }
+                                }else{ //40% chance of victory for the away team
+                                    winner = awayTeams.getKey();
+                                    loser = homeTeams.getKey();
+                                    if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                        teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                        teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+
+                                    }
+                                }
                             }
                         } else{//If they have the same woba it's a 50/50
                             float changeValue = rand.nextFloat(); 
                             if (changeValue <= .5f){ //If the random number is below .5 then the home team wins giving them a 60% chance of victory
                                 winner = homeTeams.getKey();
                                 loser = awayTeams.getKey();
-                                teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                    teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                    teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                }
                             }else{ //40% chance of victory for the away team
                                 winner = awayTeams.getKey();
                                 loser = homeTeams.getKey();
-                                teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
-                                teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                if (teamRecords.get(homeTeams.getKey())[0] + teamRecords.get(homeTeams.getKey())[1] < 162 && teamRecords.get(awayTeams.getKey())[0] + teamRecords.get(awayTeams.getKey())[1] < 162){
+                                    teamRecords.replace(winner, new Integer[] {teamRecords.get(winner)[0] + 1, teamRecords.get(winner)[1] + 0});
+                                    teamRecords.replace(loser, new Integer[] {teamRecords.get(loser)[0] + 0, teamRecords.get(loser)[1] + 1});
+                                }
                             }
                         }
                     }
@@ -372,25 +437,9 @@ public class Simulate extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         mvpText = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        mvpStats = new javax.swing.JTextField();
-        catcherStatsName = new javax.swing.JTextField();
-        catcherStats = new javax.swing.JTextField();
-        firstbaseStats = new javax.swing.JTextField();
-        firstbaseStatsName = new javax.swing.JTextField();
-        secondbaseStats = new javax.swing.JTextField();
-        secondbaseStatsName = new javax.swing.JTextField();
-        thirdbaseStatsName = new javax.swing.JTextField();
-        thirdbaseStats = new javax.swing.JTextField();
-        shortstopStats = new javax.swing.JTextField();
-        shortstopStatsName = new javax.swing.JTextField();
-        leftfieldStatsName = new javax.swing.JTextField();
-        leftfieldStats = new javax.swing.JTextField();
-        centerfieldStatsName = new javax.swing.JTextField();
-        centerfieldStats = new javax.swing.JTextField();
-        rightfieldStats = new javax.swing.JTextField();
-        rightfieldStatsName = new javax.swing.JTextField();
-        dhStatsName = new javax.swing.JTextField();
-        dhStats = new javax.swing.JTextField();
+        mvpStatsText = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lineupTable = new javax.swing.JTable();
 
         jButton1.setText("jButton1");
 
@@ -832,7 +881,7 @@ public class Simulate extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(thirtiethPlaceTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(thirtiethPlaceRecord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
@@ -849,92 +898,35 @@ public class Simulate extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("MVP:");
 
-        mvpStats.setText("MVP Stats Here");
+        mvpStatsText.setText("MVP Stats Here");
 
-        catcherStatsName.setText("jTextField1");
-        catcherStatsName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                catcherStatsNameActionPerformed(evt);
+        lineupTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lineupTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Stats"
             }
-        });
-
-        catcherStats.setText("catcherStats");
-
-        firstbaseStats.setText("firstbaseStats");
-
-        firstbaseStatsName.setText("firstbaseStatsName");
-
-        secondbaseStats.setText("jTextField2");
-
-        secondbaseStatsName.setText("jTextField1");
-
-        thirdbaseStatsName.setText("jTextField1");
-
-        thirdbaseStats.setText("jTextField2");
-
-        shortstopStats.setText("jTextField2");
-
-        shortstopStatsName.setText("jTextField1");
-
-        leftfieldStatsName.setText("jTextField1");
-
-        leftfieldStats.setText("jTextField2");
-
-        centerfieldStatsName.setText("jTextField1");
-
-        centerfieldStats.setText("jTextField2");
-
-        rightfieldStats.setText("jTextField2");
-
-        rightfieldStatsName.setText("jTextField1");
-
-        dhStatsName.setText("jTextField1");
-
-        dhStats.setText("jTextField2");
+        ));
+        jScrollPane4.setViewportView(lineupTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(firstbaseStatsName, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                            .addComponent(catcherStatsName, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(secondbaseStatsName))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(secondbaseStats)
-                            .addComponent(mvpStats, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                            .addComponent(mvpText, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(catcherStats, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(firstbaseStats, javax.swing.GroupLayout.Alignment.LEADING)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(shortstopStatsName)
-                            .addComponent(thirdbaseStatsName)
-                            .addComponent(leftfieldStatsName))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(thirdbaseStats, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                            .addComponent(shortstopStats)
-                            .addComponent(leftfieldStats)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(rightfieldStatsName)
-                            .addComponent(centerfieldStatsName)
-                            .addComponent(dhStatsName))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rightfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(centerfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dhStats, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(mvpText, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+                    .addComponent(mvpStatsText))
                 .addGap(24, 24, 24))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -944,43 +936,9 @@ public class Simulate extends javax.swing.JFrame {
                     .addComponent(mvpText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mvpStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(catcherStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(catcherStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstbaseStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(firstbaseStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(secondbaseStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(secondbaseStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(thirdbaseStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thirdbaseStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(shortstopStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(shortstopStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(leftfieldStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(leftfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(centerfieldStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(centerfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rightfieldStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rightfieldStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dhStatsName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dhStats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mvpStatsText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1043,10 +1001,6 @@ public class Simulate extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mvpTextActionPerformed
 
-    private void catcherStatsNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catcherStatsNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_catcherStatsNameActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -1084,12 +1038,6 @@ public class Simulate extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField catcherStats;
-    private javax.swing.JTextField catcherStatsName;
-    private javax.swing.JTextField centerfieldStats;
-    private javax.swing.JTextField centerfieldStatsName;
-    private javax.swing.JTextField dhStats;
-    private javax.swing.JTextField dhStatsName;
     private javax.swing.JTextField eighteenthPlaceRecord;
     private javax.swing.JTextField eighteenthPlaceTeam;
     private javax.swing.JTextField eighthPlaceRecord;
@@ -1102,8 +1050,6 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JTextField fifthPlaceTeam;
     private javax.swing.JTextField firstPlaceRecord;
     private javax.swing.JTextField firstPlaceTeam;
-    private javax.swing.JTextField firstbaseStats;
-    private javax.swing.JTextField firstbaseStatsName;
     private javax.swing.JTextField fourteenthPlaceRecord;
     private javax.swing.JTextField fourteenthPlaceTeam;
     private javax.swing.JTextField fourthPlaceRecord;
@@ -1119,28 +1065,22 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField leftfieldStats;
-    private javax.swing.JTextField leftfieldStatsName;
-    private javax.swing.JTextField mvpStats;
+    private static javax.swing.JTable lineupTable;
+    private static javax.swing.JTextField mvpStatsText;
     private static javax.swing.JTextField mvpText;
     private javax.swing.JTextField nineteenthPlaceRecord;
     private javax.swing.JTextField nineteenthPlaceTeam;
     private javax.swing.JTextField ninthPlaceRecord;
     private javax.swing.JTextField ninthPlaceTeam;
-    private javax.swing.JTextField rightfieldStats;
-    private javax.swing.JTextField rightfieldStatsName;
     private javax.swing.JTextField secondPlaceRecord;
     private javax.swing.JTextField secondPlaceTeam;
-    private javax.swing.JTextField secondbaseStats;
-    private javax.swing.JTextField secondbaseStatsName;
     private javax.swing.JTextField seventeenthPlaceRecord;
     private javax.swing.JTextField seventeenthPlaceTeam;
     private javax.swing.JTextField seventhPlaceRecord;
     private javax.swing.JTextField seventhPlaceTeam;
-    private javax.swing.JTextField shortstopStats;
-    private javax.swing.JTextField shortstopStatsName;
     private javax.swing.JTextField sixteenthPlaceRecord;
     private javax.swing.JTextField sixteenthPlaceTeam;
     private javax.swing.JTextField sixthPlaceRecord;
@@ -1149,8 +1089,6 @@ public class Simulate extends javax.swing.JFrame {
     private javax.swing.JTextField tenthPlaceTeam;
     private javax.swing.JTextField thirdPlaceRecord;
     private javax.swing.JTextField thirdPlaceTeam;
-    private javax.swing.JTextField thirdbaseStats;
-    private javax.swing.JTextField thirdbaseStatsName;
     private javax.swing.JTextField thirteenthPlaceRecord;
     private javax.swing.JTextField thirteenthPlaceTeam;
     private javax.swing.JTextField thirtiethPlaceRecord;
